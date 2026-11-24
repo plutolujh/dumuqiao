@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>流量面板 · 独木桥</title>
-    <meta name="description" content="站点流量与工具使用统计面板（本地埋点）" />
+    <meta name="description" content="站点流量统计面板（接入 Cloudflare Web Analytics，通过 /api/analytics 代理获取真实访问数据）" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css" />
@@ -16,84 +16,151 @@
 
     <main class="container">
       <h2 class="page-title">流量面板</h2>
-      <p class="subtitle">页面浏览与工具点击统计（本站自埋点，仅存储于访客本地浏览器）</p>
+      <p class="subtitle">接入 Cloudflare Web Analytics（真实访问数据，通过站点代理 /api/analytics 获取）</p>
+
+      <div id="statusMsg" style="margin-bottom:16px;font-size:13px;color:var(--text-light);"></div>
 
       <div class="card" id="summaryBox" style="margin-top:24px;"></div>
 
       <div class="card" style="margin-top:20px;">
-        <h3>📊 页面浏览量（PV）</h3>
+        <h3>📊 页面浏览量（PV / 页面）</h3>
         <div id="pageviewList" style="margin-top:14px;">加载中...</div>
       </div>
 
       <div class="card" style="margin-top:20px;">
-        <h3>🛠️ 工具点击量</h3>
+        <h3>🛠️ 工具点击量（本地埋点）</h3>
         <div id="toolList" style="margin-top:14px;">加载中...</div>
       </div>
 
-      <p style="font-size:12px;color:var(--text-lighter);margin-top:24px;">注：数据仅存在访客本地 localStorage，刷新后清空；每次打开本页面重新累计。后续可接入服务端统计做持久化面板。</p>
+      <div class="card" style="margin-top:20px;">
+        <h3>📱 访客设备 / 浏览器 / 地区</h3>
+        <div id="demoList" style="margin-top:14px;">加载中...</div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>📈 每日趋势</h3>
+        <div id="dailyList" style="margin-top:14px;">加载中...</div>
+      </div>
+
+      <p style="font-size:12px;color:var(--text-lighter);margin-top:24px;">注：Cloudflare 数据有采样，近 7 天内最准确；工具点击量为本站本地埋点，仅存储于访客浏览器。</p>
     </main>
 
     <script>
+      const API_BASE = (() => {
+        // 优先使用同源 /api/analytics（需 nginx 代理到 tide sync-server：3001）
+        // 若部署在非同域，可在此填完整 VPS 地址，如 'https://vps.example.com/api/analytics'
+        return '/api/analytics';
+      })();
+
       const STORAGE_KEY = 'dumuqiao_analytics';
-      function getAnalytics() {
+      function getLocalAnalytics() {
         try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { return {}; }
       }
       function fmtNum(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 
-      function render() {
-        const data = getAnalytics();
-        const pv = data.pageview || {};
+      async function fetchAnalytics(days = 7) {
+        const res = await fetch(`${API_BASE}?days=${days}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      }
+
+      function renderLocalTools() {
+        const data = getLocalAnalytics();
         const tool = data.tool_click || {};
-
-        // 总计
-        const totalPV = Object.values(pv).reduce((s, d) => s + (d.__total || 0), 0);
-        const totalTool = Object.values(tool).reduce((s, d) => s + (d.__total || 0), 0);
-        const pageCount = Object.keys(pv).length;
-        const toolCount = Object.keys(tool).length;
-
-        document.getElementById('summaryBox').innerHTML = `
-          <div style="display:flex;gap:14px;flex-wrap:wrap;">
-            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
-              <div style="font-size:26px;font-weight:700;color:var(--primary);">${fmtNum(totalPV)}</div>
-              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">页面浏览（PV）</div>
-            </div>
-            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
-              <div style="font-size:26px;font-weight:700;color:var(--accent);">${fmtNum(totalTool)}</div>
-              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">工具点击</div>
-            </div>
-            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
-              <div style="font-size:26px;font-weight:700;color:var(--text);">${pageCount}</div>
-              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">浏览页面数</div>
-            </div>
-            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
-              <div style="font-size:26px;font-weight:700;color:var(--text);">${toolCount}</div>
-              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">点击工具数</div>
-            </div>
-          </div>
-        `;
-
-        // PV 列表
-        const pvItems = Object.entries(pv)
+        const items = Object.entries(tool)
           .map(([label, d]) => ({ label, total: d.__total || 0 }))
           .sort((a, b) => b.total - a.total);
-        document.getElementById('pageviewList').innerHTML = pvItems.length
-          ? '<table class="zj-table"><thead><tr><th>页面</th><th style="text-align:right;">浏览量</th></tr></thead><tbody>' +
-            pvItems.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
-            '</tbody></table>'
-          : '<p style="color:var(--text-light);">暂无页面浏览数据。</p>';
-
-        // 工具列表
-        const toolItems = Object.entries(tool)
-          .map(([label, d]) => ({ label, total: d.__total || 0 }))
-          .sort((a, b) => b.total - a.total);
-        document.getElementById('toolList').innerHTML = toolItems.length
+        const el = document.getElementById('toolList');
+        el.innerHTML = items.length
           ? '<table class="zj-table"><thead><tr><th>工具</th><th style="text-align:right;">点击量</th></tr></thead><tbody>' +
-            toolItems.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
+            items.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
             '</tbody></table>'
           : '<p style="color:var(--text-light);">暂无工具点击数据。</p>';
       }
 
-      render();
+      function renderSummary(data) {
+        const totalVisits = data.totalVisits ?? 0;
+        const paths = data.paths || [];
+        const devices = data.devices || [];
+        const browsers = data.browsers || [];
+        const countries = data.countries || [];
+        const daily = data.daily || [];
+
+        document.getElementById('summaryBox').innerHTML = `
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--primary);">${fmtNum(totalVisits)}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">Cloudflare 访问量（最近 ${data.range ? data.range.days : 7} 天）</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--accent);">${paths.length}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">被访问页面数</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--text);">${devices.length}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">设备类型数</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--text);">${countries.length}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">地区数</div>
+            </div>
+          </div>
+        `;
+
+        // PV 页面列表
+        const pvItems = paths.map(p => ({
+          label: (p.dimensions?.requestPath || '/') + (p.dimensions?.requestHost ? ' (' + p.dimensions.requestHost + ')' : ''),
+          total: p.sum?.visits ?? 0
+        })).sort((a, b) => b.total - a.total);
+        document.getElementById('pageviewList').innerHTML = pvItems.length
+          ? '<table class="zj-table"><thead><tr><th>页面</th><th style="text-align:right;">访问量</th><th style="text-align:right;">设备/浏览器</th></tr></thead><tbody>' +
+            pvItems.map(i => {
+              const src = paths.find(p => ((p.dimensions?.requestPath || '/') + (p.dimensions?.requestHost ? ' (' + p.dimensions.requestHost + ')' : '')) === i.label);
+              const dev = src ? (src.dimensions.deviceType || '—') : '—';
+              const br = src ? (src.dimensions.userAgentBrowser || '—') : '—';
+              return `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td><td style="font-size:12px;color:var(--text-light);">${dev} · ${br}</td></tr>`;
+            }).join('') +
+            '</tbody></table>'
+          : '<p style="color:var(--text-light);">暂无页面访问数据。</p>';
+
+        // 设备/浏览器/地区
+        const devItems = devices.map(d => ({ label: d.dimensions?.deviceType || '未知', total: d.sum?.visits ?? 0 })).sort((a,b)=>b.total-a.total);
+        const brItems = browsers.map(d => ({ label: d.dimensions?.userAgentBrowser || '未知', total: d.sum?.visits ?? 0 })).sort((a,b)=>b.total-a.total);
+        const coItems = countries.map(d => ({ label: d.dimensions?.countryName || '未知', total: d.sum?.visits ?? 0 })).sort((a,b)=>b.total-a.total);
+        document.getElementById('demoList').innerHTML = `
+          <table class="zj-table" style="width:100%;"><thead><tr><th style="width:33%;">设备类型</th><th style="width:33%;">浏览器</th><th style="width:33%;">地区</th></tr></thead><tbody>
+            <tr>
+              <td>${devItems.map(i=>`<div>${i.label}：${fmtNum(i.total)}</div>`).join('')}</td>
+              <td>${brItems.map(i=>`<div>${i.label}：${fmtNum(i.total)}</div>`).join('')}</td>
+              <td>${coItems.map(i=>`<div>${i.label}：${fmtNum(i.total)}</div>`).join('')}</td>
+            </tr>
+          </tbody></table>`;
+
+        // 每日趋势
+        const dayItems = daily.map(d => ({ label: d.dimensions?.date || '—', total: d.sum?.visits ?? 0 }));
+        document.getElementById('dailyList').innerHTML = dayItems.length
+          ? '<table class="zj-table"><thead><tr><th>日期</th><th style="text-align:right;">访问量</th></tr></thead><tbody>' +
+            dayItems.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
+            '</tbody></table>'
+          : '<p style="color:var(--text-light);">暂无每日趋势数据。</p>';
+      }
+
+      async function main() {
+        const status = document.getElementById('statusMsg');
+        try {
+          const data = await fetchAnalytics(7);
+          status.textContent = '✅ Cloudflare 数据已加载（' + data.range.start + ' 至 ' + data.range.end + '）';
+          renderSummary(data);
+        } catch (e) {
+          status.textContent = '⚠️ Cloudflare 数据获取失败：' + e.message + '（请确保 VPS 上 tide sync-server 已启动并配置 CLOUDFLARE_API_TOKEN，以及 nginx 已把 /api/analytics 代理到 :3001）';
+          console.error(e);
+          // 仍渲染本地埋点
+          renderSummary({ totalVisits: 0, paths: [], devices: [], browsers: [], countries: [], daily: [] });
+        }
+        renderLocalTools();
+      }
+
+      main();
       document.body.insertAdjacentHTML('beforeend', renderFooter());
     </script>
   </body>
