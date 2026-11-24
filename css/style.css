@@ -919,6 +919,151 @@ footer a {
   margin-bottom: 4px;
 }
 
+/* ================================
+   移动端适配（手机优先增强）
+   ================================ */
+
+/* form-group 在手机上纵向堆叠，避免多个选择框横向挤在一起位置异常 */
+@media (max-width: 600px) {
+  .tool-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tool-section .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .tool-section input,
+  .tool-section select {
+    width: 100%;
+    min-width: unset;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    font-size: 16px; /* 防止 iOS 缩放 */
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .tool-section button {
+    width: 100%;
+  }
+}
+
+/* 导航栏在手机上：链接横向滚动，不换行溢出 */
+@media (max-width: 768px) {
+  .nav-header nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-right: 16px;
+  }
+
+  .nav-header nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-header nav a {
+    white-space: nowrap;
+    padding: 10px 12px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle {
+    flex-shrink: 0;
+    padding: 8px;
+  }
+
+  .page-title {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  .card {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+}
+
+/* 极窄屏幕（iPhone SE 等） */
+@media (max-width: 375px) {
+  .nav-header h1 {
+    font-size: 15px;
+    padding: 8px 12px;
+  }
+
+  .page-title {
+    font-size: 18px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .tool-section h3 {
+    font-size: 16px;
+  }
+}
+
+/* 表格在手机上横向滚动，防止列被压扁 */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 16px 0;
+}
+
+.table-wrap table {
+  min-width: 600px;
+}
+
+/* 大学卡片在手机上占满宽度 */
+@media (max-width: 600px) {
+  .tool-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .tool-card .card {
+    padding: 16px;
+  }
+
+  .tool-card h3 {
+    font-size: 17px;
+  }
+}
+
+/* 大学详情页摘要卡片在手机上纵向排列 */
+@media (max-width: 600px) {
+  #schoolSummary {
+    flex-direction: column !important;
+  }
+
+  #schoolSummary .card {
+    width: 100%;
+  }
+}
+
+/* iOS 输入框自动大写与缩放抑制 */
+input, select, textarea {
+  font-size: 16px;
+}
+
 @media (max-width: 480px) {
   .changelog-header {
     flex-direction: column;
