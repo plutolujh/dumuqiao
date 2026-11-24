@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>大学详情 · 独木桥</title>
+    <meta name="description" content="查看各高校在浙江的投档线、位次、招生计划与专业详情（2025年数据）。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ff1887dca16742aa95b09a15eb7b7708"}'></script>
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>bootstrap();</script>
+
+    <main class="container">
+      <a href="universities.html" style="font-size:14px;color:var(--text-light);display:inline-block;margin-top:16px;">← 返回大学库</a>
+      <h2 class="page-title" id="schoolTitle">加载中...</h2>
+      <p class="subtitle" id="schoolSubtitle"></p>
+
+      <div id="schoolSummary" style="display:flex;gap:14px;flex-wrap:wrap;margin:20px 0;"></div>
+
+      <div class="tool-section">
+        <h3>🔍 在专业中搜索</h3>
+        <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
+          <input type="text" id="majorSearch" placeholder="输入专业关键词，如「计算机」「金融」" style="flex:1;min-width:180px;" />
+          <button class="btn" onclick="renderMajors()" style="flex-shrink:0;">搜索</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <select id="sortSelect" style="padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);">
+            <option value="scoreDesc">按投档分从高到低</option>
+            <option value="scoreAsc">按投档分从低到高</option>
+            <option value="planDesc">按招生计划从多到少</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="majorsTable" style="margin-top:20px;overflow-x:auto;"></div>
+    </main>
+
+    <script>
+      let allData = [];
+      let currentSchool = null;
+      let currentMajors = [];
+
+      const params = new URLSearchParams(location.search);
+      const targetName = params.get('name');
+
+      fetch('data/schools2025.json')
+        .then(r => r.json())
+        .then(data => {
+          allData = data;
+          if (!targetName) {
+            document.getElementById('schoolTitle').textContent = '请选择一所大学';
+            document.getElementById('schoolSubtitle').textContent = '请通过大学库进入某所高校的详情页。';
+            return;
+          }
+          currentMajors = data.filter(d => d.school === targetName);
+          if (!currentMajors.length) {
+            document.getElementById('schoolTitle').textContent = '未找到该院校';
+            document.getElementById('schoolSubtitle').textContent = '院校名称「' + targetName + '」不在2025年数据中。';
+            return;
+          }
+          currentSchool = targetName;
+          renderSummary();
+          renderMajors();
+        })
+        .catch(e => {
+          document.getElementById('schoolTitle').textContent = '数据加载失败';
+          console.error(e);
+        });
+
+      function renderSummary() {
+        const majors = currentMajors;
+        const scores = majors.map(m => m.score).filter(s => s != null);
+        const ranks = majors.map(m => m.rank).filter(r => r != null);
+        const minScore = scores.length ? Math.min(...scores) : null;
+        const maxScore = scores.length ? Math.max(...scores) : null;
+        const minRank = ranks.length ? Math.min(...ranks) : null;
+        const totalPlan = majors.reduce((sum, m) => sum + (m.plan || 0), 0);
+
+        document.getElementById('schoolTitle').textContent = currentSchool;
+        document.getElementById('schoolSubtitle').textContent = '2025年浙江投档数据 · 共' + majors.length + '个专业';
+
+        document.getElementById('schoolSummary').innerHTML = `
+          <div class="card" style="flex:1;min-width:140px;margin:0;padding:18px;text-align:center;">
+            <div style="font-size:24px;font-weight:700;color:var(--primary);">${minScore != null ? minScore + '<span style="font-size:14px;">分</span>' : '—'}</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">最低投档分</div>
+          </div>
+          <div class="card" style="flex:1;min-width:140px;margin:0;padding:18px;text-align:center;">
+            <div style="font-size:24px;font-weight:700;color:var(--primary);">${maxScore != null ? maxScore + '<span style="font-size:14px;">分</span>' : '—'}</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">最高投档分</div>
+          </div>
+          <div class="card" style="flex:1;min-width:140px;margin:0;padding:18px;text-align:center;">
+            <div style="font-size:24px;font-weight:700;color:var(--primary);">${minRank != null ? minRank.toLocaleString() : '—'}</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">最低位次</div>
+          </div>
+          <div class="card" style="flex:1;min-width:140px;margin:0;padding:18px;text-align:center;">
+            <div style="font-size:24px;font-weight:700;color:var(--primary);">${totalPlan || '—'}</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:4px;">总招生计划</div>
+          </div>
+        `;
+      }
+
+      function renderMajors() {
+        const q = document.getElementById('majorSearch').value.trim().toLowerCase();
+        const sort = document.getElementById('sortSelect').value;
+        let majors = currentMajors.slice();
+        if (q) majors = majors.filter(m => (m.major || '').toLowerCase().includes(q));
+
+        if (sort === 'scoreDesc') majors.sort((a, b) => (b.score || 0) - (a.score || 0));
+        else if (sort === 'scoreAsc') majors.sort((a, b) => (a.score || 0) - (b.score || 0));
+        else if (sort === 'planDesc') majors.sort((a, b) => (b.plan || 0) - (a.plan || 0));
+
+        const el = document.getElementById('majorsTable');
+        if (!majors.length) {
+          el.innerHTML = '<div class="card">没有匹配的专业。</div>';
+          return;
+        }
+        el.innerHTML = `<table class="zj-table">
+          <thead><tr><th>专业名称</th><th style="text-align:right;">投档分</th><th style="text-align:right;">位次</th><th style="text-align:right;">计划</th></tr></thead>
+          <tbody>${majors.map(m => `<tr>
+            <td class="zj-univ">${m.major || '—'}</td>
+            <td class="zj-score" style="text-align:right;">${m.score != null ? m.score : '—'}</td>
+            <td class="zj-rank" style="text-align:right;">${m.rank != null ? m.rank.toLocaleString() : '—'}</td>
+            <td style="text-align:right;color:var(--text-light);">${m.plan != null ? m.plan : '—'}</td>
+          </tr>`).join('')}</tbody>
+        </table>`;
+      }
+
+      document.getElementById('majorSearch').addEventListener('keydown', e => { if (e.key === 'Enter') renderMajors(); });
+      document.getElementById('majorSearch').addEventListener('input', () => { if (document.getElementById('majorSearch').value === '') renderMajors(); });
+      document.getElementById('sortSelect').addEventListener('change', renderMajors);
+
+      document.body.insertAdjacentHTML('beforeend', renderFooter());
+    </script>
+  </body>
+</html>

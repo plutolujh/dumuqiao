@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>大学库 · 独木桥</title>
+    <meta name="description" content="浙江高考院校库：按院校名称、层次、地区筛选1291所高校，查看各校投档线与专业详情。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ff1887dca16742aa95b09a15eb7b7708"}'></script>
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>bootstrap();</script>
+
+    <main class="container">
+      <h2 class="page-title">大学库</h2>
+      <p class="subtitle">按院校名称、层次、地区筛选 <strong id="totalSchools">...</strong> 所高校，点击查看投档线与专业详情（2025年浙江数据）</p>
+
+      <div class="tool-section">
+        <h3>🔍 筛选院校</h3>
+        <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
+          <input type="text" id="searchInput" placeholder="输入院校名称关键词，如「浙江」「大学」" style="flex:1;min-width:180px;" />
+          <button class="btn" onclick="applyFilters()" style="flex-shrink:0;">搜索</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <select id="tierFilter" style="padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);">
+            <option value="">全部层次</option>
+          </select>
+          <select id="regionFilter" style="padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);">
+            <option value="">全部地区</option>
+          </select>
+          <select id="sortSelect" style="padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);">
+            <option value="name">按名称排序</option>
+            <option value="minScore">按最低分从高到低</option>
+            <option value="maxScore">按最低分从低到高</option>
+            <option value="majorCount">按专业数从多到少</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="universityList" style="margin-top:24px;"></div>
+    </main>
+
+    <script>
+      let allData = [];
+      let schools = {}; // name -> { name, majors:[], minScore, maxScore, minRank, regions }
+
+      fetch('data/schools2025.json')
+        .then(r => r.json())
+        .then(data => {
+          allData = data;
+          buildSchoolIndex();
+          renderList();
+        })
+        .catch(e => {
+          document.getElementById('universityList').innerHTML = '<div class="card">数据加载失败，请刷新页面重试。</div>';
+          console.error(e);
+        });
+
+      function buildSchoolIndex() {
+        const map = {};
+        for (const d of allData) {
+          if (!map[d.school]) map[d.school] = { name: d.school, majors: [], minScore: Infinity, maxScore: -Infinity, minRank: Infinity, regions: new Set() };
+          const s = map[d.school];
+          s.majors.push(d);
+          if (d.score != null) {
+            if (d.score < s.minScore) s.minScore = d.score;
+            if (d.score > s.maxScore) s.maxScore = d.score;
+          }
+          if (d.rank != null && d.rank < s.minRank) s.minRank = d.rank;
+          // 粗略地区：从校名推断（用于筛选，不精确）
+          const region = guessRegion(d.school);
+          if (region) s.regions.add(region);
+        }
+        schools = map;
+        document.getElementById('totalSchools').textContent = Object.keys(map).length;
+      }
+
+      // 从校名粗略推断地区（用于筛选，非官方）
+      function guessRegion(name) {
+        if (/浙江|杭州|宁波|温州|绍兴|嘉兴|湖州|金华|台州|衢州|丽水|舟山|义乌|慈溪|余姚|海宁|桐乡/.test(name)) return '浙江省内';
+        if (/北京|北京大学|清华大学|中国人民大学/.test(name)) return '北京';
+        if (/上海|复旦|交通|同济|华东师范/.test(name)) return '上海';
+        if (/天津|南开/.test(name)) return '天津';
+        if (/江苏|南京|苏州|东南|中国矿业|中国药科|江南|河海|南京师范|南京航空|南京理工/.test(name)) return '江苏';
+        if (/广东|广州|中山|华南|暨南|深圳/.test(name)) return '广东';
+        if (/山东|青岛|山东大学|中国海洋|中国石油/.test(name)) return '山东';
+        if (/四川|成都|四川大学|电子科技|西南/.test(name)) return '四川';
+        if (/湖北|武汉|武汉大学|华中|中国地质/.test(name)) return '湖北';
+        if (/湖南|长沙|中南|湖南大学|国防科技/.test(name)) return '湖南';
+        if (/福建|厦门|福州/.test(name)) return '福建';
+        if (/安徽|合肥|中国科学技术|安徽大学/.test(name)) return '安徽';
+        if (/陕西|西安|西安交通|西北工业|西北农林|长安|陕西师范/.test(name)) return '陕西';
+        if (/河南|郑州/.test(name)) return '河南';
+        return '其他/外省';
+      }
+
+      function getFiltered() {
+        const q = document.getElementById('searchInput').value.trim();
+        const tier = document.getElementById('tierFilter').value;
+        const region = document.getElementById('regionFilter').value;
+        const sort = document.getElementById('sortSelect').value;
+
+        let list = Object.values(schools);
+        if (q) list = list.filter(s => s.name.includes(q));
+        if (region) list = list.filter(s => s.regions.has(region));
+        if (tier === 'zhejiang') list = list.filter(s => s.regions.has('浙江省内'));
+        if (tier === '985') list = list.filter(s => is985(s.name));
+        if (tier === '211') list = list.filter(s => is211(s.name));
+
+        if (sort === 'minScore') list.sort((a, b) => b.minScore - a.minScore);
+        else if (sort === 'maxScore') list.sort((a, b) => a.minScore - b.minScore);
+        else if (sort === 'majorCount') list.sort((a, b) => b.majors.length - a.majors.length);
+        else list.sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'));
+
+        return list;
+      }
+
+      function is985(name) {
+        const list = ['北京大学','清华大学','中国人民大学','北京师范大学','北京航空航天大学','北京理工大学','中国农业大学','中央民族大学','复旦大学','上海交通大学','同济大学','华东师范大学','浙江大学','南京大学','东南大学','中国科学技术大学','厦门大学','山东大学','中国海洋大学','中山大学','华南理工大学','哈尔滨工业大学','吉林大学','大连理工大学','东北大学','天津大学','南开大学','西安交通大学','西北工业大学','西北农林科技大学','武汉大学','华中科技大学','湖南大学','中南大学','国防科技大学','四川大学','电子科技大学','重庆大学','兰州大学','云南大学','新疆大学','贵州大学','海南大学','宁夏大学','青海大学','西藏大学','内蒙古大学','广西大学'];
+        return list.includes(name);
+      }
+      function is211(name) {
+        if (is985(name)) return true;
+        const list = ['北京交通大学','北京工业大学','北京科技大学','北京化工大学','北京邮电大学','北京林业大学','北京协和医学院','北京中医药大学','北京外国语大学','对外经济贸易大学','北京体育大学','中央音乐学院','中国政法大学','中国矿业大学（北京）','中国石油大学（北京）','华北电力大学','上海外国语大学','上海财经大学','东华大学','华东理工大学','上海大学','苏州大学','南京航空航天大学','南京理工大学','河海大学','南京农业大学','南京师范大学','中国矿业大学（徐州）','江南大学','中国药科大学','安徽大学','合肥工业大学','福州大学','南昌大学','郑州大学','武汉理工大学','华中师范大学','华中农业大学','中南财经政法大学','中国地质大学（武汉）','湖南师范大学','暨南大学','华南师范大学','西南交通大学','西南财经大学','四川农业大学','西南大学','东北师范大学','延边大学','哈尔滨工程大学','东北林业大学','东北农业大学','辽宁大学','大连海事大学','陕西师范大学','长安大学','西北大学','太原理工大学','河北工业大学','华北电力大学（保定）','石河子大学'];
+        return list.includes(name);
+      }
+
+      function applyFilters() { renderList(); }
+      function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('tierFilter').value = '';
+        document.getElementById('regionFilter').value = '';
+        renderList();
+      }
+
+      // 初始化筛选下拉
+      function initFilters() {
+        const tierSel = document.getElementById('tierFilter');
+        const regions = [...new Set(Object.values(schools).flatMap(s => [...s.regions]))];
+        // 按常用排序
+        const order = ['浙江省内','北京','上海','江苏','广东','山东','四川','湖北','湖南','福建','安徽','陕西','天津'];
+        regions.sort((a, b) => {
+          const ia = order.indexOf(a), ib = order.indexOf(b);
+          return (ia === -1 ? 99 : ia) - (ib === -1 ? 99 : ib);
+        });
+        const regionSel = document.getElementById('regionFilter');
+        for (const r of regions) {
+          const o = document.createElement('option');
+          o.value = r; o.textContent = r;
+          regionSel.appendChild(o);
+        }
+        tierSel.innerHTML = '<option value="">全部层次</option><option value="985">985高校</option><option value="211">211高校</option><option value="zhejiang">浙江省内高校</option>';
+        tierSel.onchange = renderList;
+        regionSel.onchange = renderList;
+        document.getElementById('sortSelect').onchange = renderList;
+      }
+
+      function renderList() {
+        const list = getFiltered();
+        const el = document.getElementById('universityList');
+        if (!list.length) {
+          el.innerHTML = '<div class="card">没有匹配的院校，试试更换关键词。</div>';
+          return;
+        }
+        el.innerHTML = `<p style="font-size:14px;color:var(--text-light);margin-bottom:14px;">共找到 <strong>${list.length}</strong> 所高校</p>` +
+          '<div class="tool-grid">' + list.slice(0, 60).map(s => {
+            const tierBadge = is985(s.name) ? '<span class="uni-tier">985</span>' : is211(s.name) ? '<span class="uni-tier">211</span>' : '';
+            return `<a class="tool-card" href="university.html?name=${encodeURIComponent(s.name)}">
+              <div class="card">
+                <h3><span class="icon">🏫</span> ${s.name} ${tierBadge}</h3>
+                <p>最低投档分 <strong>${Number.isFinite(s.minScore) ? s.minScore + '分' : '—'}</strong> · 位次 ${Number.isFinite(s.minRank) ? s.minRank.toLocaleString() : '—'} · ${s.majors.length}个专业</p>
+              </div>
+            </a>`;
+          }).join('') + '</div>' +
+          (list.length > 60 ? `<div style="text-align:center;padding:20px;color:var(--text-light);font-size:14px;">仅显示前60所，请输入更具体的关键词精确查找</div>` : '');
+      }
+
+      document.getElementById('searchInput').addEventListener('keydown', e => { if (e.key === 'Enter') applyFilters(); });
+      // 等数据加载后再初始化筛选（initFilters 依赖 schools 已构建）
+      // 通过轮询 data 是否加载
+      const origBuild = buildSchoolIndex;
+      buildSchoolIndex = function() { origBuild(); initFilters(); };
+
+      document.body.insertAdjacentHTML('beforeend', renderFooter());
+    </script>
+  </body>
+</html>
