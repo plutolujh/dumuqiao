@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>流量面板 · 独木桥</title>
+    <meta name="description" content="站点流量与工具使用统计面板（本地埋点）" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ff1887dca16742aa95b09a15eb7b7708"}'></script>
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>bootstrap();</script>
+
+    <main class="container">
+      <h2 class="page-title">流量面板</h2>
+      <p class="subtitle">页面浏览与工具点击统计（本站自埋点，仅存储于访客本地浏览器）</p>
+
+      <div class="card" id="summaryBox" style="margin-top:24px;"></div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>📊 页面浏览量（PV）</h3>
+        <div id="pageviewList" style="margin-top:14px;">加载中...</div>
+      </div>
+
+      <div class="card" style="margin-top:20px;">
+        <h3>🛠️ 工具点击量</h3>
+        <div id="toolList" style="margin-top:14px;">加载中...</div>
+      </div>
+
+      <p style="font-size:12px;color:var(--text-lighter);margin-top:24px;">注：数据仅存在访客本地 localStorage，刷新后清空；每次打开本页面重新累计。后续可接入服务端统计做持久化面板。</p>
+    </main>
+
+    <script>
+      const STORAGE_KEY = 'dumuqiao_analytics';
+      function getAnalytics() {
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function fmtNum(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+      function render() {
+        const data = getAnalytics();
+        const pv = data.pageview || {};
+        const tool = data.tool_click || {};
+
+        // 总计
+        const totalPV = Object.values(pv).reduce((s, d) => s + (d.__total || 0), 0);
+        const totalTool = Object.values(tool).reduce((s, d) => s + (d.__total || 0), 0);
+        const pageCount = Object.keys(pv).length;
+        const toolCount = Object.keys(tool).length;
+
+        document.getElementById('summaryBox').innerHTML = `
+          <div style="display:flex;gap:14px;flex-wrap:wrap;">
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--primary);">${fmtNum(totalPV)}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">页面浏览（PV）</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--accent);">${fmtNum(totalTool)}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">工具点击</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--text);">${pageCount}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">浏览页面数</div>
+            </div>
+            <div class="card" style="flex:1;min-width:120px;padding:18px;text-align:center;">
+              <div style="font-size:26px;font-weight:700;color:var(--text);">${toolCount}</div>
+              <div style="font-size:13px;color:var(--text-light);margin-top:4px;">点击工具数</div>
+            </div>
+          </div>
+        `;
+
+        // PV 列表
+        const pvItems = Object.entries(pv)
+          .map(([label, d]) => ({ label, total: d.__total || 0 }))
+          .sort((a, b) => b.total - a.total);
+        document.getElementById('pageviewList').innerHTML = pvItems.length
+          ? '<table class="zj-table"><thead><tr><th>页面</th><th style="text-align:right;">浏览量</th></tr></thead><tbody>' +
+            pvItems.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
+            '</tbody></table>'
+          : '<p style="color:var(--text-light);">暂无页面浏览数据。</p>';
+
+        // 工具列表
+        const toolItems = Object.entries(tool)
+          .map(([label, d]) => ({ label, total: d.__total || 0 }))
+          .sort((a, b) => b.total - a.total);
+        document.getElementById('toolList').innerHTML = toolItems.length
+          ? '<table class="zj-table"><thead><tr><th>工具</th><th style="text-align:right;">点击量</th></tr></thead><tbody>' +
+            toolItems.map(i => `<tr><td>${i.label}</td><td style="text-align:right;">${fmtNum(i.total)}</td></tr>`).join('') +
+            '</tbody></table>'
+          : '<p style="color:var(--text-light);">暂无工具点击数据。</p>';
+      }
+
+      render();
+      document.body.insertAdjacentHTML('beforeend', renderFooter());
+    </script>
+  </body>
+</html>

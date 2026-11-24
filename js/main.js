@@ -29,12 +29,14 @@ function renderHeader() {
       <nav>
         <a href="index.html">首页</a>
         <a href="encyclopedia.html">概念百科</a>
+        <a href="universities.html">大学库</a>
         <a href="calculator.html">三一计算器</a>
         <a href="score-locator.html">分数定位</a>
         <a href="timeline.html">志愿时间轴</a>
         <a href="strategy.html">首考策略</a>
         <a href="study-materials.html">学习资料</a>
         <a href="changelog.html">更新日志</a>
+        <a href="dashboard.html">流量面板</a>
       </nav>
       <div class="theme-toggle">
         ${themeButtons}
@@ -113,3 +115,37 @@ function highlightActiveNav() {
     }
   });
 }
+
+// ---------------- 轻量级自埋点（用于流量面板） ----------------
+const STORAGE_KEY = 'dumuqiao_analytics';
+function getAnalytics() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+  } catch (e) { return {}; }
+}
+function setAnalytics(data) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+}
+function recordEvent(type, label) {
+  const data = getAnalytics();
+  const now = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  if (!data[type]) data[type] = {};
+  if (!data[type][label]) data[type][label] = {};
+  if (!data[type][label][now]) data[type][label][now] = 0;
+  data[type][label][now]++;
+  data[type][label].__total = (data[type][label].__total || 0) + 1;
+  setAnalytics(data);
+}
+
+// 页面浏览（PV）
+const pagePath = location.pathname.split('/').pop() || 'index.html';
+recordEvent('pageview', pagePath);
+
+// 工具卡片点击（在主页面上统计）
+document.addEventListener('click', e => {
+  const card = e.target.closest('.tool-card');
+  if (card) {
+    const title = card.querySelector('h3');
+    if (title) recordEvent('tool_click', title.textContent.trim());
+  }
+});
