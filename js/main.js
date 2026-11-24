@@ -55,7 +55,7 @@ function renderFooter() {
       <p>🎓 独木桥 · 浙江高考选科选校通 &nbsp;|&nbsp; 数据来源于官方网站，请以官方发布为准</p>
     </div>
     <div class="container version-line">
-      <p><a href="changelog.html">${VERSION}</a></p>
+      <p><a href="changelog.html">${VERSION}</a> &nbsp;|&nbsp; <a href="https://github.com/plutolujh/dumuqiao" target="_blank" rel="noopener noreferrer">🐙 GitHub</a></p>
     </div>
   </footer>
   `;
