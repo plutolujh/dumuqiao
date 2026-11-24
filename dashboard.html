@@ -52,9 +52,9 @@
         return '/api/analytics';
       })();
 
-      const STORAGE_KEY = 'dumuqiao_analytics';
+      const DASHBOARD_KEY = 'dumuqiao_analytics';
       function getLocalAnalytics() {
-        try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (e) { return {}; }
+        try { return JSON.parse(localStorage.getItem(DASHBOARD_KEY) || '{}'); } catch (e) { return {}; }
       }
       function fmtNum(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 
