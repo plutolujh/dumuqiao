@@ -45,7 +45,7 @@ function renderHeader() {
 }
 
 // 版本信息
-const VERSION = 'v1.0.2';
+const VERSION = 'v1.0.3';
 
 // 渲染 Footer
 function renderFooter() {
