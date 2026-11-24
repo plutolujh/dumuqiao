@@ -13,7 +13,7 @@ jobs:
   deploy:
     name: Deploy to VPS
     runs-on: ubuntu-latest
-    environment: tideenv
+    environment: env
 
     env:
       VPS_HOST: ${{ vars.VPS_HOST }}
