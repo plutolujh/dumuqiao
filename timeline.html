@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>志愿时间轴 · 独木桥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script src="js/main.js"></script>
+  <script>
+    bootstrap();
+  </script>
+
+  <div class="container">
+    <h2 class="page-title">志愿填报时间轴</h2>
+    <p class="subtitle">浙江高考志愿关键节点（6月-8月）</p>
+    <div class="timeline"></div>
+  </div>
+
+  <script type="application/json" id="page-data">[
+  { "date": "6月25日", "event": "高考成绩查询", "desc": "浙江省教育考试院公布高考成绩，可查询分数和位次" },
+  { "date": "6月29-30日 8:30-17:30", "event": "提前批志愿填报", "desc": "普通类提前批、艺体类等志愿填报截止时间，逾期不补填" },
+  { "date": "7月5日前", "event": "强基计划、西湖大学录取", "desc": "强基计划和西湖大学完成录取" },
+  { "date": "7月7日前", "event": "香港单招高校录取", "desc": "香港单招院校（香港大学等）完成录取" },
+  { "date": "7月8日", "event": "高水平大学三位一体投档", "desc": "高水平三一（复旦、交大、浙大等）投档录取" },
+  { "date": "7月9日", "event": "浙江警察学院投档录取", "desc": "浙警提前批投档录取" },
+  { "date": "7月12日", "event": "提前批投档录取", "desc": "普通类提前批各院校投档录取" },
+  { "date": "7月15日", "event": "高校专项、地方专项投档", "desc": "高校专项和地方专项计划投档录取" },
+  { "date": "7月21日", "event": "一段平行投档录取", "desc": "普通类一段平行志愿投档录取" },
+  { "date": "7月24日", "event": "公布剩余计划", "desc": "一段录取后未完成招生计划的院校公布剩余计划" },
+  { "date": "7月26-27日 8:30-17:30", "event": "二段平行志愿填报", "desc": "二段线上考生填报平行志愿" },
+  { "date": "7月30日", "event": "二段平行投档录取", "desc": "普通类二段平行志愿投档录取" },
+  { "date": "8月2日上午", "event": "公布征求计划", "desc": "二段录取后征求志愿院校公布计划" },
+  { "date": "8月5日 8:30-17:30", "event": "征求志愿填报", "desc": "征求志愿填报，最后上岸机会" },
+  { "date": "8月3-5日", "event": "征求志愿投档", "desc": "征求志愿投档录取" }
+]</script>
+
+  <script>
+    const items = getPageData();
+    const timelineEl = document.querySelector('.timeline');
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'timeline-item';
+      div.innerHTML = `
+        <div class="timeline-date">${item.date}</div>
+        <div class="timeline-title">${item.event}</div>
+        <div class="timeline-desc">${item.desc}</div>
+      `;
+      timelineEl.appendChild(div);
+    });
+    document.body.insertAdjacentHTML('beforeend', renderFooter());
+  </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>分数定位器 · 独木桥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script src="js/main.js"></script>
+  <script>
+    bootstrap();
+  </script>
+
+  <div class="container">
+    <h2 class="page-title">分数定位器</h2>
+    <p class="subtitle">输入高考分数或位次，查询你能报什么层次的学校（基于2025年真实投档数据）</p>
+
+    <div class="tool-section">
+      <h3>输入你的分数或位次</h3>
+      <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+        <select id="inputType" onchange="toggleInputType()" style="padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:14px;min-width:100px;">
+          <option value="score">按分数</option>
+          <option value="rank">按位次</option>
+        </select>
+        <input type="number" id="scoreInput" placeholder="例如 620" min="490" max="750" style="flex:1;min-width:160px;">
+        <input type="number" id="rankInput" placeholder="例如 15000" style="flex:1;min-width:160px;display:none;">
+        <button class="btn" onclick="locate()" style="flex-shrink:0;">查询</button>
+      </div>
+      <p style="font-size:12px;color:var(--text-light);margin-top:8px;">💡 位次比分数更稳定，每年难易度不同但排名相对固定</p>
+    </div>
+
+    <div id="resultBox" class="result-box" style="display:none;">
+      <h4 id="resultTitle"></h4>
+      <p id="resultSubtitle" style="color:var(--text-light);font-size:14px;margin-bottom:16px;"></p>
+      <div id="reachSection"></div>
+      <div id="matchSection"></div>
+      <div id="safetySection"></div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <h4 style="margin-bottom:12px;">📊 2025年分数参考线</h4>
+      <div id="scoreRefList"></div>
+    </div>
+  </div>
+
+  <script>
+    let schoolData = [];
+    let loading = true;
+    // 用于存储分数和位次的映射关系
+    let scoreToRankMap = [];
+    let rankToScoreMap = [];
+
+    // 加载2025年投档线数据
+    fetch('data/schools2025.json')
+      .then(r => r.json())
+      .then(data => {
+        schoolData = data;
+        // 建立分数->位次关系（取每个分数段的最低位次）
+        const scoreRankMap = {};
+        data.forEach(s => {
+          if (s.score && s.rank) {
+            const key = s.score;
+            if (!scoreRankMap[key] || s.rank < scoreRankMap[key]) {
+              scoreRankMap[key] = s.rank;
+            }
+          }
+        });
+        scoreToRankMap = scoreRankMap;
+        loading = false;
+        document.querySelector('.subtitle').textContent = '输入高考分数或位次，查询你能报什么层次的学校（基于2025年真实投档数据，共' + schoolData.length + '条专业记录）';
+      })
+      .catch(e => {
+        loading = false;
+        console.error('加载数据失败', e);
+      });
+
+    function toggleInputType() {
+      const inputType = document.getElementById('inputType').value;
+      const scoreInput = document.getElementById('scoreInput');
+      const rankInput = document.getElementById('rankInput');
+      if (inputType === 'score') {
+        scoreInput.style.display = '';
+        scoreInput.disabled = false;
+        rankInput.style.display = 'none';
+        rankInput.disabled = true;
+      } else {
+        scoreInput.style.display = 'none';
+        scoreInput.disabled = true;
+        rankInput.style.display = '';
+        rankInput.disabled = false;
+      }
+    }
+
+    function locate() {
+      if (loading) {
+        alert('数据加载中，请稍候...');
+        return;
+      }
+
+      const inputType = document.getElementById('inputType').value;
+      let score;
+      let displayInput = '';
+
+      if (inputType === 'score') {
+        const scoreVal = document.getElementById('scoreInput').value;
+        if (!scoreVal) return;
+        score = parseInt(scoreVal, 10);
+        displayInput = score + '分';
+      } else {
+        const rankVal = document.getElementById('rankInput').value;
+        if (!rankVal) return;
+        const userRank = parseInt(rankVal, 10);
+        displayInput = '位次' + userRank.toLocaleString();
+        // 通过位次匹配：找到所有投档线位次 >= 用户位次的（即用户排名更好或相当）
+        // 这意味着用户可以被该校录取
+        // 取这些记录中最接近用户排名的那个分数作为估算
+        const betterOrEqual = schoolData.filter(s => s.rank && s.rank >= userRank);
+        if (betterOrEqual.length > 0) {
+          // 取位次最接近用户排名的那个专业的分数
+          betterOrEqual.sort((a, b) => a.rank - b.rank);
+          // 取排名最好的那个的分数（位次数字小 = 排名高）
+          score = betterOrEqual[0].score;
+        } else {
+          // 用户排名太差，估算一个较低分数
+          score = 490;
+        }
+      }
+
+      const resultBox = document.getElementById('resultBox');
+      // 过滤可报考的专业（投档线分数 <= 用户分数，说明用户分数够得上）
+      const eligible = schoolData.filter(s => s.score && s.score <= score);
+
+      if (eligible.length === 0) {
+        resultBox.style.display = 'block';
+        document.getElementById('resultTitle').textContent = '未找到合适区间';
+        document.getElementById('resultSubtitle').textContent = '你的' + displayInput + '可能低于大多数院校的投档线，请确认输入正确';
+        document.getElementById('reachSection').innerHTML = '';
+        document.getElementById('matchSection').innerHTML = '';
+        document.getElementById('safetySection').innerHTML = '';
+        return;
+      }
+
+      // 按分数排序
+      eligible.sort((a, b) => b.score - a.score);
+
+      // 分类：冲（投档线比用户分数高0-10分）、稳（在用户分数-15分到0分）、保（低于用户15分以上）
+      const reach = eligible.filter(s => s.score > score && s.score <= score + 15).slice(0, 15);
+      const match = eligible.filter(s => s.score >= score - 15 && s.score <= score).slice(0, 20);
+      const safety = eligible.filter(s => s.score < score - 15).slice(0, 20);
+
+      resultBox.style.display = 'block';
+      document.getElementById('resultTitle').textContent = '可报考院校专业推荐';
+      document.getElementById('resultSubtitle').textContent = '根据2025年投档数据，你的' + displayInput + '（约' + score + '分）可报考以下院校（按分数从高到低）';
+
+      document.getElementById('reachSection').innerHTML = renderSection('🚀 冲（高于你0-15分，可尝试）', reach, 'reach');
+      document.getElementById('matchSection').innerHTML = renderSection('✅ 稳（你分数上下15分，较稳妥）', match, 'match');
+      document.getElementById('safetySection').innerHTML = renderSection('🛡️ 保（低于你15分以上，保底）', safety, 'safety');
+    }
+
+    function renderSection(title, items, type) {
+      if (items.length === 0) return '<div style="margin:16px 0;"><h5 style="color:var(--text-light);">无</h5></div>';
+
+      const bgColors = {
+        reach: '#fff8e6',
+        match: '#e8f5e9',
+        safety: '#e3f2fd'
+      };
+      const borderColors = {
+        reach: '#ffb74d',
+        match: '#81c784',
+        safety: '#64b5f6'
+      };
+
+      const html = '<div style="margin:16px 0;"><h5 style="color:var(--primary);margin-bottom:10px;">' + title + ' <span style="font-size:12px;color:var(--text-light);font-weight:normal;">' + items.length + '条</span></h5>' + items.map(item => '<div class="school-item" style="background:' + bgColors[type] + ';border-left:3px solid ' + borderColors[type] + ';padding:10px 14px;margin-bottom:8px;border-radius:6px;"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;"><span style="font-weight:600;color:var(--text);">' + item.school + '</span><span style="font-size:13px;color:#666;">' + item.major + '</span></div><div style="margin-top:4px;font-size:13px;color:var(--text-light);"><span style="color:' + borderColors[type] + ';font-weight:600;">' + item.score + '分</span> · 位次 ' + (item.rank ? item.rank.toLocaleString() : '暂无') + ' · 计划' + (item.plan || '?') + '人</div></div>').join('') + '</div>';
+
+      return html;
+    }
+
+    // 分数参考线
+    const scoreRefList = document.getElementById('scoreRefList');
+    scoreRefList.innerHTML = `
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <thead>
+          <tr style="border-bottom:2px solid #eee;">
+            <th style="text-align:left;padding:8px 0;color:var(--text-light);font-weight:500;">层次</th>
+            <th style="text-align:right;padding:8px 0;color:var(--text-light);font-weight:500;">分数</th>
+            <th style="text-align:right;padding:8px 0;color:var(--text-light);font-weight:500;">位次</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">清华北大</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#d32f2f;">700+</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">&lt; 200</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">复旦交大浙大</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#c62828;">680-699</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">200-1000</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">985热门专业</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#e65100;">670-679</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">1000-2500</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">211院校</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#f57c00;">630-669</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">2500-1.5万</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">省重点（一本）</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#ffa726;">600-629</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">1.5-4万</td></tr>
+          <tr style="border-bottom:1px solid #eee;"><td style="padding:8px 0;font-weight:600;">普通本科</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#66bb6a;">550-599</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">4-8万</td></tr>
+          <tr><td style="padding:8px 0;font-weight:600;">专科</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#78909c;">490-549</td><td style="text-align:right;padding:8px 0;font-family:monospace;color:#666;">8万+</td></tr>
+        </tbody>
+      </table>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', renderFooter());
+  </script>
+</body>
+</html>

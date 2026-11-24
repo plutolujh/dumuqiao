@@ -1,0 +1,13 @@
+.worktrees/
+*.pdf.DS_Store
+.DS_Store
+
+# 错题照片的 OCR 中间产物（可随时用 工具/ 重新生成）
+weak-tracker/**/识别用图/
+
+# 物理题目裁图（可随时用 工具/物理逐题裁剪.py 重新生成）
+weak-tracker/**/题目图/
+
+# 不推送到 GitHub：大型数学分类数据和错题追踪
+cn-math-taxonomy/
+weak-tracker/

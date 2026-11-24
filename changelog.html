@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
+    <title>更新日志 · 独木桥</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>
+      bootstrap();
+    </script>
+
+    <main class="container" style="margin-top: 40px">
+      <h2 class="page-title">更新日志</h2>
+      <p style="font-size: 17px; color: var(--text-light); margin-bottom: 32px">
+        独木桥 · 浙江高考选科选校通版本历史
+      </p>
+
+      <div class="changelog-list">
+        <div class="changelog-item card">
+          <div class="changelog-header">
+            <span class="changelog-version">v1.0.2</span>
+            <span class="changelog-date">2026-05-11</span>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 12px">新增学习资料模块</h3>
+          <ul style="color: var(--text-light); font-size: 14px; line-height: 2; padding-left: 20px">
+            <li>新增「学习资料」页面及导航入口</li>
+            <li>新增高中语文诗词鉴赏四大题型分析（HTML格式）</li>
+            <li>修复「蜀交界处」→「蜀地交界处」错别字</li>
+            <li>清理 AI 生成的提示性文字</li>
+          </ul>
+        </div>
+
+        <div class="changelog-item card">
+          <div class="changelog-header">
+            <span class="changelog-version">v1.0.1</span>
+            <span class="changelog-date">2026-05-09</span>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 12px">修复与优化</h3>
+          <ul style="color: var(--text-light); font-size: 14px; line-height: 2; padding-left: 20px">
+            <li>分数定位器 — 分数参考线增加位次信息，表格布局优化对齐</li>
+            <li>概念百科 — 新增浙江省大学词条（20所高校分数位次参考表）</li>
+            <li>页脚版权信息更新为"数据来源于官方网站，请以官方发布为准"</li>
+            <li>修复概念百科词条展开/折叠异常问题（table元素导致p标签解析错误）</li>
+          </ul>
+        </div>
+
+        <div class="changelog-item card">
+          <div class="changelog-header">
+            <span class="changelog-version">v1.0.0</span>
+            <span class="changelog-date">2026-05-09</span>
+          </div>
+          <h3 style="color: var(--primary); margin-bottom: 12px">正式发布</h3>
+          <ul style="color: var(--text-light); font-size: 14px; line-height: 2; padding-left: 20px">
+            <li>三位一体计算器 — 输入学考/校测/高考成绩，计算综合分</li>
+            <li>分数定位器 — 输入高考分数，查询对应层次院校</li>
+            <li>概念百科 — 17条升学名词详解</li>
+            <li>志愿填报时间轴 — 6月至8月关键节点</li>
+            <li>首考策略 — 选科放掉建议</li>
+            <li>四种配色主题切换（浙江蓝/墨绿/暖橙/夜色）</li>
+            <li>完整手机适配</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="margin-top: 32px; text-align: center;">
+        <a href="index.html" class="btn" style="display: inline-flex;">← 返回首页</a>
+      </div>
+    </main>
+
+    <script>
+      document.body.insertAdjacentHTML('beforeend', renderFooter());
+    </script>
+  </body>
+</html>

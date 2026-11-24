@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
+    />
+    <title>独木桥 · 浙江高考选科选校通</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>
+      bootstrap();
+    </script>
+
+    <main class="container" style="margin-top: 40px">
+      <h2 class="page-title">浙江高考选科选校通</h2>
+      <p style="font-size: 17px; color: var(--text-light); margin-bottom: 32px">
+        面向浙江考生家长的高考信息工具站，帮你搞清楚三位一体是什么、分数能报什么学校、高考流程怎么走。
+      </p>
+
+      <div class="tool-grid">
+        <a href="calculator.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">🎯</span> 三位一体计算器</h3>
+            <p>输入学考成绩、校测成绩、高考分数，计算综合分和降分幅度</p>
+          </div>
+        </a>
+        <a href="score-locator.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📊</span> 分数定位器</h3>
+            <p>输入高考分数，查询对应层次的推荐院校</p>
+          </div>
+        </a>
+        <a href="encyclopedia.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📖</span> 概念百科</h3>
+            <p>三位一体、强基计划、985/211…升学名词一网打尽</p>
+          </div>
+        </a>
+        <a href="timeline.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📅</span> 志愿填报时间轴</h3>
+            <p>6月到8月浙江高考志愿关键节点一览</p>
+          </div>
+        </a>
+        <a href="strategy.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">🧠</span> 首考策略</h3>
+            <p>首考哪些科目建议放掉？怎么判断？进来看看</p>
+          </div>
+        </a>
+        <a href="study-materials.html" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📚</span> 学习资料</h3>
+            <p>高中各科必考题型分析与答题模板</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card">
+        <h3 style="color: var(--primary); margin-bottom: 12px">📌 数据说明</h3>
+        <p style="font-size: 14px; color: var(--text-light); line-height: 1.8">
+          本站点内容来源于网络信息仅供参考，请以浙江省教育考试院官方发布为准。
+        </p>
+      </div>
+    </main>
+    <script>
+      document.body.insertAdjacentHTML("beforeend", renderFooter());
+    </script>
+  </body>
+</html>

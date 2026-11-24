@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>首考策略 · 独木桥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2 class="page-title">首考策略</h2>
+    <p class="subtitle">首考哪些科目建议放掉？进来看看</p>
+    <p class="intro">首考是浙江高考特有的政策，指的是第一次参加高考的考试机会。学生可以根据平时成绩和模拟考试的表现，决定哪些科目值得放掉，以节省精力冲刺其他科目。</p>
+    <div id="strategyList"></div>
+  </div>
+
+  <script type="application/json" id="page-data">[
+  {
+    "condition": "省内重点高校（杭电、浙工大等）单科赋分88以上",
+    "advice": "建议放掉该科目，将精力集中在其他科目",
+    "suitable": "目标是省属重点高校的学生"
+  },
+  {
+    "condition": "根据平时学校考试或各大联盟考试，超常发挥的学科",
+    "advice": "该学科已经超出正常水平，首考放掉可以保住超常发挥的分数",
+    "suitable": "某科目明显超出平时水平"
+  },
+  {
+    "condition": "非常不擅长，很难提升，但考得还行，且其他优势学科有更高提分空间",
+    "advice": "放掉瘸腿科目，专攻优势科目，总体收益更高",
+    "suitable": "存在明显弱科且提分困难"
+  },
+  {
+    "condition": "成绩不稳定但题目难度大的时候名次反而好的学生",
+    "advice": "这类学生首考难度大时有优势，但正式高考竞争更激烈，建议谨慎放科目",
+    "suitable": "成绩波动大、越难越好的学生"
+  }
+]</script>
+
+  <script src="js/main.js"></script>
+  <script>
+    bootstrap();
+    const strategies = getPageData();
+    const listEl = document.getElementById('strategyList');
+    strategies.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.marginBottom = '16px';
+      card.innerHTML = `
+        <div style="margin-bottom:8px;">
+          <span style="background:#fef3e0;border:1px solid #f5a623;border-radius:4px;padding:2px 8px;font-size:12px;color:#d68000;font-weight:600;">适用条件</span>
+        </div>
+        <p style="font-size:15px;margin-bottom:12px;color:var(--text);">${item.condition}</p>
+        <div style="margin-bottom:8px;">
+          <span style="background:#e8f4fd;border:1px solid #1e6ab1;border-radius:4px;padding:2px 8px;font-size:12px;color:#1e6ab1;font-weight:600;">建议</span>
+        </div>
+        <p style="font-size:15px;margin-bottom:12px;color:var(--text);">${item.advice}</p>
+        <div style="margin-bottom:8px;">
+          <span style="background:#f0f0f0;border:1px solid #999;border-radius:4px;padding:2px 8px;font-size:12px;color:#666;font-weight:600;">适用对象</span>
+        </div>
+        <p style="font-size:14px;color:var(--text-light);">${item.suitable}</p>
+      `;
+      listEl.appendChild(card);
+    });
+    document.body.insertAdjacentHTML('beforeend', renderFooter());
+  </script>
+</body>
+</html>

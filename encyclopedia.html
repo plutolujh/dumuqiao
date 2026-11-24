@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>概念百科 · 独木桥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script src="js/main.js"></script>
+  <script>
+    bootstrap();
+  </script>
+
+  <main class="container">
+    <h2 class="page-title">概念百科</h2>
+    <p style="font-size:15px;color:var(--text-light);margin-bottom:24px;">三位一体、强基计划、985/211…升学名词一网打尽</p>
+    <input type="text" id="searchInput" class="search-box" placeholder="搜索关键词…">
+
+    <div id="termsList"></div>
+  </main>
+
+  <script type="application/json" id="page-data">
+[
+  {
+    "id": "985",
+    "name": "985高校",
+    "desc": "全国39所国家重点建设的高水平大学，含北京大学、清华大学、复旦大学、浙江大学等。",
+    "detail": "<strong>985高校</strong>是国家在1998年启动的重点建设工程，全国共39所。浙江仅有浙江大学一所。985高校在提前批、普通批均有招生，分数要求较高。<br><br><strong>🏛️ 北京（8所）</strong><br>北京大学、清华大学、中国人民大学、北京师范大学、北京航空航天大学、北京理工大学、中国农业大学、中央民族大学<br><br><strong>🌆 上海（4所）</strong><br>复旦大学、上海交通大学、同济大学、华东师范大学<br><br><strong>🌿 浙江（1所）</strong><br>浙江大学<br><br><strong>🌸 江苏（2所）</strong><br>南京大学、东南大学<br><br><strong>📖 安徽（1所）</strong><br>中国科学技术大学<br><br><strong>🌊 福建（1所）</strong><br>厦门大学<br><br><strong>🏔️ 山东（2所）</strong><br>山东大学、中国海洋大学<br><br><strong>🐉 广东（2所）</strong><br>中山大学、华南理工大学<br><br><strong>🌾 黑龙江（1所）</strong><br>哈尔滨工业大学<br><br><strong>❄️ 吉林（1所）</strong><br>吉林大学<br><br><strong>🏛️ 辽宁（2所）</strong><br>大连理工大学、东北大学<br><br><strong>🦁 天津（2所）</strong><br>天津大学、南开大学<br><br><strong>🚂 湖北（2所）</strong><br>武汉大学、华中科技大学<br><br><strong>🌺 湖南（3所）</strong><br>中南大学、国防科技大学、湖南大学<br><br><strong>🐼 四川（2所）</strong><br>四川大学、电子科技大学<br><br><strong>🌈 重庆（1所）</strong><br>重庆大学<br><br><strong>🗺️ 陕西（3所）</strong><br>西安交通大学、西北工业大学、西北农林科技大学<br><br><strong>🌿 甘肃（1所）</strong><br>兰州大学<br><br><strong>🌟 云南（1所）</strong><br>云南大学<br><br><strong>🏜️ 新疆（1所）</strong><br>新疆大学<br><br><strong>⛰️ 贵州（1所）</strong><br>贵州大学<br><br><strong>🌴 海南（1所）</strong><br>海南大学<br><br><strong>🌬️ 宁夏（1所）</strong><br>宁夏大学<br><br><strong>🏔️ 青海（1所）</strong><br>青海大学<br><br><strong>🏔️ 西藏（1所）</strong><br>西藏大学<br><br><strong>🪿 内蒙古（1所）</strong><br>内蒙古大学<br><br><strong>🦌 广西（1所）</strong><br>广西大学"
+  },
+  {
+    "id": "211",
+    "name": "211高校",
+    "desc": "面向21世纪重点建设的100所左右高等学校，数量多于985。",
+    "detail": "<strong>211工程</strong>是国家重点建设项目，全国约116所，包含所有985高校。211学校在就业和升学方面均有优势。<br><br><strong>🏛️ 北京（26所）</strong><br>北京大学、清华大学、中国人民大学、北京师范大学、北京航空航天大学、北京理工大学、中国农业大学、中央民族大学、北京交通大学、北京工业大学、北京科技大学、北京化工大学、北京邮电大学、北京林业大学、北京协和医学院、北京中医药大学、北京外国语大学、对外经济贸易大学、北京体育大学、中央音乐学院、中国政法大学、中国矿业大学（北京）、中国石油大学（北京）、华北电力大学<br><br><strong>🌆 上海（9所）</strong><br>复旦大学、上海交通大学、同济大学、华东师范大学、上海外国语大学、上海财经大学、东华大学、华东理工大学、上海大学<br><br><strong>🌿 浙江（1所）</strong><br>浙江大学<br><br><strong>🌸 江苏（11所）</strong><br>南京大学、东南大学、南京航空航天大学、南京理工大学、河海大学、南京农业大学、南京师范大学、中国矿业大学（徐州）、苏州大学、江南大学、中国药科大学<br><br><strong>📖 安徽（3所）</strong><br>中国科学技术大学、安徽大学、合肥工业大学<br><br><strong>🌊 福建（2所）</strong><br>厦门大学、福州大学<br><br><strong>🏔️ 山东（3所）</strong><br>山东大学、中国海洋大学、中国石油大学（华东）<br><br><strong>🐉 广东（4所）</strong><br>中山大学、华南理工大学、暨南大学、华南师范大学<br><br><strong>🦁 天津（2所）</strong><br>天津大学、南开大学<br><br><strong>❄️ 吉林（3所）</strong><br>吉林大学、东北师范大学、延边大学<br><br><strong>🌾 黑龙江（4所）</strong><br>哈尔滨工业大学、哈尔滨工程大学、东北林业大学、东北农业大学<br><br><strong>🏛️ 辽宁（4所）</strong><br>大连理工大学、东北大学、辽宁大学、大连海事大学<br><br><strong>🚂 湖北（7所）</strong><br>武汉大学、华中科技大学、武汉理工大学、华中师范大学、华中农业大学、中南财经政法大学、中国地质大学（武汉）<br><br><strong>🌺 湖南（4所）</strong><br>中南大学、湖南大学、湖南师范大学、国防科技大学<br><br><strong>🐼 四川（5所）</strong><br>四川大学、电子科技大学、西南交通大学、西南财经大学、四川农业大学<br><br><strong>🌈 重庆（2所）</strong><br>重庆大学、西南大学<br><br><strong>🗺️ 陕西（7所）</strong><br>西安交通大学、西北工业大学、西北农林科技大学、西安电子科技大学、陕西师范大学、长安大学、西北大学<br><br><strong>🌿 甘肃（1所）</strong><br>兰州大学<br><br><strong>🌟 云南（2所）</strong><br>云南大学、昆明理工大学<br><br><strong>🏜️ 新疆（2所）</strong><br>新疆大学、石河子大学<br><br><strong>⛰️ 贵州（1所）</strong><br>贵州大学<br><br><strong>🌴 海南（1所）</strong><br>海南大学<br><br><strong>🌬️ 宁夏（1所）</strong><br>宁夏大学<br><br><strong>🏔️ 青海（1所）</strong><br>青海大学<br><br><strong>🦌 广西（1所）</strong><br>广西大学<br><br><strong>🌍 河北（2所）</strong><br>河北工业大学、华北电力大学（保定）<br><br><strong>⛰️ 山西（1所）</strong><br>太原理工大学<br><br><strong>🌄 河南（1所）</strong><br>郑州大学<br><br><strong>🌾 江西（1所）</strong><br>南昌大学<br><br><strong>🦌 内蒙古（1所）</strong><br>内蒙古大学<br><br><strong>🚢 黑龙江（2所）</strong><br>东北林业大学、东北农业大学"
+  },
+  {
+    "id": "qiangji",
+    "name": "强基计划",
+    "desc": "教育部基础学科拔尖人才培养计划，重点招收数学、物理、化学、生物、历史、哲学等基础学科。",
+    "detail": "强基计划是2020年开始的招生改革措施，在普通批之前单独录取。适合基础学科特长的学生，但入学后不能转专业。"
+  },
+  {
+    "id": "sanweiyiti",
+    "name": "三位一体",
+    "desc": "学考成绩 + 校测成绩 + 高考成绩，三项综合择优录取。浙江特有招生模式。",
+    "detail": "三位一体是浙江省特有的综合评价招生模式。综合分 = 高考成绩×权重 + 学考成绩×权重 + 校测成绩×权重。各校权重不同，最高可降分68分。报名时间通常在3-4月，校测在4月，高考后填志愿。"
+  },
+  {
+    "id": "gaozhi",
+    "name": "高职提前招",
+    "desc": "大专院校在高考前提前招生，通过即可免高考入学。",
+    "detail": "高职提前招适合成绩一般的学生，通过招生院校的综合测试后可直接录取。浙江省有47所高职院校参与。"
+  },
+  {
+    "id": "tiqianpi",
+    "name": "提前批",
+    "desc": "在普通批之前录取的批次，包括军校、警校、师范、公费师范生、航海、港澳院校等。",
+    "detail": "提前批填报时间在6月29-30日（浙江）。提前批不影响普通批录取，适合有明确意向的学生。但注意：提前批一旦录取，普通批不再投档。"
+  },
+  {
+    "id": "pingxing",
+    "name": "普通平行志愿",
+    "desc": "分数优先、遵循志愿、一轮投档，是浙江普通批的主要投档方式。",
+    "detail": "平行志愿下，先按分数排位，再按志愿顺序投档。每位考生只有一次投档机会。填志愿时要有梯度：冲、稳、保。"
+  },
+  {
+    "id": "yiduanxian",
+    "name": "一段线/二段线",
+    "desc": "浙江高考分段录取控制线，一段线约相当于传统一本线。",
+    "detail": "一段线按实考人数的前60%划定，二段线按前90%划定。一段线考生可以报一本和二本院校；二段线考生主要报二本、三本和大专。"
+  },
+  {
+    "id": "gaoxiao",
+    "name": "高校专项",
+    "desc": "农村和贫困地区学生的定向招生，名额分配到县，符合条件考生可报考。",
+    "detail": "高校专项计划招生院校为部属高校和浙江大学等。考生需符合浙江省实施区域条件，在单独批次填报志愿，每生可填报一所院校。"
+  },
+  {
+    "id": "difang",
+    "name": "地方专项",
+    "desc": "浙江省属高校面向农村学生的专项招生计划，只招浙江农村户口考生。",
+    "detail": "地方专项计划志愿单独设置批次，实行专业平行志愿投档。考生可填报不超过30个志愿，每所高校的1个专业作为1个志愿单位。"
+  },
+  {
+    "id": "gongfei",
+    "name": "公费师范生",
+    "desc": "教育部直属6所师范院校的定向培养计划，免学费、住宿费，有编有岗。",
+    "detail": "招生院校：北京师范大学、华东师范大学、东北师范大学、华中师范大学、陕西师范大学、西南大学。毕业后面向生源地就业，有服务期。"
+  },
+  {
+    "id": "wuguanxiao",
+    "name": "五大官校",
+    "desc": "国际关系学院、外交学院、北京电子科技学院、中国消防救援学院、上海海关学院。",
+    "detail": "这五所院校均为提前批招生，就业方向明确（外交、消防、海关、信息安全等）。北京电子科技学院的密码科学与技术是王牌专业。"
+  },
+  {
+    "id": "gongan",
+    "name": "公安联考",
+    "desc": "警校毕业生通过公安联考入警的通道，只有公安类专业毕业生才能参加。",
+    "detail": "浙江警官职业学院毕业生不能参加公安联考（可以参加司法联考，必须是提前批专业）。公安专业只在提前批招生，需参加面试、体测、政审。"
+  },
+  {
+    "id": "zhengji",
+    "name": "征求志愿",
+    "desc": "各批次录取结束后，未完成招生计划的院校进行征集填报。",
+    "detail": "征求志愿填报时间通常在7月下旬至8月初。一段征求在7月26-27日，二段征求在8月5日。征求志愿是上车的最后机会。"
+  },
+  {
+    "id": "shoukao",
+    "name": "首考/赋分",
+    "desc": "浙江首考（1月）成绩参加等级赋分，赋分后计入高考。",
+    "detail": "首考科目（外语+选考科目）以等级赋分计入高考。赋分区间1-100分，最低21分。首考成绩不理想的科目可以在6月再次报考，取最高分。"
+  },
+  {
+    "id": "xuekao",
+    "name": "学考",
+    "desc": "学业水平考试，等第（A/B/C/D）影响三位一体综合素质评价分。",
+    "detail": "学考成绩以等第呈现：A等折算分最高，D等最低。各校三位一体中学考权重10%-20%不等。学考等第也可以反映学生的学习基础。"
+  },
+  {
+    "id": "xiaoce",
+    "name": "校测",
+    "desc": "高校综合素质测试，通常含面试、笔试、体测等，在三位一体中占重要权重。",
+    "detail": "校测通常在4月底进行，各校形式不同（面试为主）。面试成绩1分之差可能带来高考成绩几十分的优惠。校测权重通常10%-30%。"
+  },
+  {
+    "id": "gaozhong",
+    "name": "9+1高中联盟",
+    "desc": "浙江省重点高中民间组织，由富阳中学、慈溪中学、长兴中学等10所高中组成。",
+    "detail": "<strong>浙江省9+1高中联盟</strong>成立于2015年1月8日，由以下10所重点高中和浙江睿达教育科技有限公司联合发起设立：<br><br><strong>🏫 联盟成员（9所）</strong><br>富阳中学、慈溪中学、长兴中学、衢州二中、台州中学、桐乡高级中学、新昌中学、义乌中学、舟山中学<br><br><strong>🏢 发起单位</strong><br>浙江睿达教育科技有限公司<br><br>该联盟主要为浙江省重点高中之间的资源共享、考试研讨、尖子生培养等合作平台。"
+  },
+  {
+    "id": "zhejiang-universities",
+    "name": "浙江省大学",
+    "desc": "浙江主要高校层次一览，分数从700+到490分覆盖各层次考生。",
+    "detail": "<p style='margin-bottom:12px;font-size:14px;color:#666;'>以下为浙江主要高校层次参考（基于2025年投档数据整理）：</p><table class='zj-table'><thead><tr><th style='width:30%'>院校</th><th style='width:25%'>层次</th><th style='text-align:right;width:22%'>分数参考</th><th style='text-align:right;width:23%'>位次参考</th></tr></thead><tbody><tr><td><span class='zj-univ'>浙江大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 985/211</span></td><td><span class='zj-badge' style='background:#ffe0e0;color:#c62828;'>顶尖</span></td><td style='text-align:right'><span class='zj-score' style='color:#c62828;'>700+</span></td><td style='text-align:right'><span class='zj-rank'>&lt; 200</span></td></tr><tr><td><span class='zj-univ'>西湖大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 新型研究型</span></td><td><span class='zj-badge' style='background:#fff3e0;color:#e65100;'>研究型</span></td><td style='text-align:right'><span class='zj-score' style='color:#e65100;'>660+</span></td><td style='text-align:right'><span class='zj-rank'>1000-3000</span></td></tr><tr><td><span class='zj-univ'>宁波诺丁汉大学</span><br><span style='font-size:12px;color:#888;'>宁波 · 中外合作</span></td><td><span class='zj-badge' style='background:#fff3e0;color:#e65100;'>中外合作</span></td><td style='text-align:right'><span class='zj-score' style='color:#e65100;'>630+</span></td><td style='text-align:right'><span class='zj-rank'>5000-1.5万</span></td></tr><tr><td><span class='zj-univ'>浙江工业大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 省重点</span></td><td><span class='zj-badge' style='background:#fff8e1;color:#f57f17;'>省重点</span></td><td style='text-align:right'><span class='zj-score' style='color:#f57f17;'>600-630</span></td><td style='text-align:right'><span class='zj-rank'>1.5-4万</span></td></tr><tr><td><span class='zj-univ'>宁波大学</span><br><span style='font-size:12px;color:#888;'>宁波 · 一流学科建设</span></td><td><span class='zj-badge' style='background:#fff8e1;color:#f57f17;'>双一流学科</span></td><td style='text-align:right'><span class='zj-score' style='color:#f57f17;'>610-635</span></td><td style='text-align:right'><span class='zj-rank'>1.2-3.5万</span></td></tr><tr><td><span class='zj-univ'>浙江师范大学</span><br><span style='font-size:12px;color:#888;'>金华 · 师范类</span></td><td><span class='zj-badge' style='background:#fff8e1;color:#f57f17;'>省重点</span></td><td style='text-align:right'><span class='zj-score' style='color:#f57f17;'>595-620</span></td><td style='text-align:right'><span class='zj-rank'>2-5万</span></td></tr><tr><td><span class='zj-univ'>杭州电子科技大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 理工类</span></td><td><span class='zj-badge' style='background:#e8f5e9;color:#388e3c;'>热门理工</span></td><td style='text-align:right'><span class='zj-score' style='color:#388e3c;'>605-635</span></td><td style='text-align:right'><span class='zj-rank'>1.5-3.5万</span></td></tr><tr><td><span class='zj-univ'>浙江理工大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 理工类</span></td><td><span class='zj-badge' style='background:#fffde7;color:#afb42b;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#9e9d24;'>575-600</span></td><td style='text-align:right'><span class='zj-rank'>4-7万</span></td></tr><tr><td><span class='zj-univ'>浙江财经大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 财经类</span></td><td><span class='zj-badge' style='background:#fffde7;color:#afb42b;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#9e9d24;'>575-600</span></td><td style='text-align:right'><span class='zj-rank'>4-7万</span></td></tr><tr><td><span class='zj-univ'>浙江工商大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 财经类</span></td><td><span class='zj-badge' style='background:#fffde7;color:#afb42b;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#9e9d24;'>570-595</span></td><td style='text-align:right'><span class='zj-rank'>5-8万</span></td></tr><tr><td><span class='zj-univ'>中国计量大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 理工类</span></td><td><span class='zj-badge' style='background:#e3f2fd;color:#1565c0;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#1565c0;'>570-590</span></td><td style='text-align:right'><span class='zj-rank'>5-8万</span></td></tr><tr><td><span class='zj-univ'>浙江中医药大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 医药类</span></td><td><span class='zj-badge' style='background:#e8f5e9;color:#388e3c;'>医药类</span></td><td style='text-align:right'><span class='zj-score' style='color:#388e3c;'>580-610</span></td><td style='text-align:right'><span class='zj-rank'>3.5-6万</span></td></tr><tr><td><span class='zj-univ'>温州医科大学</span><br><span style='font-size:12px;color:#888;'>温州 · 医药类</span></td><td><span class='zj-badge' style='background:#e8f5e9;color:#388e3c;'>热门医药</span></td><td style='text-align:right'><span class='zj-score' style='color:#388e3c;'>600-640</span></td><td style='text-align:right'><span class='zj-rank'>1.5-3万</span></td></tr><tr><td><span class='zj-univ'>浙江警察学院</span><br><span style='font-size:12px;color:#888;'>杭州 · 提前批公安</span></td><td><span class='zj-badge' style='background:#fce4ec;color:#c2185b;'>提前批</span></td><td style='text-align:right'><span class='zj-score' style='color:#c2185b;'>560-600</span></td><td style='text-align:right'><span class='zj-rank'>5-10万</span></td></tr><tr><td><span class='zj-univ'>杭州师范大学</span><br><span style='font-size:12px;color:#888;'>杭州 · 师范类</span></td><td><span class='zj-badge' style='background:#fff8e1;color:#f57f17;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#f57f17;'>580-605</span></td><td style='text-align:right'><span class='zj-rank'>3.5-6万</span></td></tr><tr><td><span class='zj-univ'>浙江传媒学院</span><br><span style='font-size:12px;color:#888;'>杭州 · 传媒类</span></td><td><span class='zj-badge' style='background:#fffde7;color:#afb42b;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#9e9d24;'>550-575</span></td><td style='text-align:right'><span class='zj-rank'>7-10万</span></td></tr><tr><td><span class='zj-univ'>浙江万里学院</span><br><span style='font-size:12px;color:#888;'>宁波 · 公办本科</span></td><td><span class='zj-badge' style='background:#e3f2fd;color:#1565c0;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#1565c0;'>530-555</span></td><td style='text-align:right'><span class='zj-rank'>10-14万</span></td></tr><tr><td><span class='zj-univ'>嘉兴学院</span><br><span style='font-size:12px;color:#888;'>嘉兴 · 综合类</span></td><td><span class='zj-badge' style='background:#e3f2fd;color:#1565c0;'>普通本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#1565c0;'>520-545</span></td><td style='text-align:right'><span class='zj-rank'>12-16万</span></td></tr><tr><td><span class='zj-univ'>衢州学院/丽水学院等</span><br><span style='font-size:12px;color:#888;'>地市 · 地方本科</span></td><td><span class='zj-badge' style='background:#eceff1;color:#546e7a;'>地方本科</span></td><td style='text-align:right'><span class='zj-score' style='color:#546e7a;'>490-530</span></td><td style='text-align:right'><span class='zj-rank'>14-20万</span></td></tr></tbody></table><p style='margin-top:16px;font-size:12px;color:#999;'>※ 分数为2025年参考范围，具体专业分数差异较大。中外合作专业通常低于普通专业10-20分。</p>"
+  }
+]
+  </script>
+
+  <script>
+    function renderTerms(items) {
+      const container = document.getElementById('termsList');
+      container.innerHTML = items.map(term => `
+        <div class="term-card" onclick="this.classList.toggle('open')">
+          <h3>${term.name}</h3>
+          <p class="term-desc">${term.desc}</p>
+          <p class="expand-hint">点击展开 ↓</p>
+          <div class="term-detail">${term.detail}</div>
+        </div>
+      `).join('');
+    }
+
+    const data = getPageData();
+    renderTerms(data);
+
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+      const query = this.value;
+      const filtered = filterItems(data, query, 'name');
+      renderTerms(filtered);
+    });
+  </script>
+    <script>
+      document.body.insertAdjacentHTML('beforeend', renderFooter());
+    </script>
+  </body>
+</html>

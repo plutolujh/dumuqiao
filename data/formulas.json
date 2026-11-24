@@ -1,0 +1,77 @@
+[
+  {
+    "name": "浙江工业大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": "学考等第折算：A=15分、B=10分、C=5分、D=2分"
+  },
+  {
+    "name": "浙江财经大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "温州医科大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江工商大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江理工大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江科技学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙大城市学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "绍兴文理学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "杭州师范大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": "校测权重较高"
+  },
+  {
+    "name": "宁波诺丁汉大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": ""
+  },
+  {
+    "name": "温州肯恩大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": ""
+  },
+  {
+    "name": "宁波大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "浙江师范大学（复硕）",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "杭州师范大学（复硕）",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "浙江警察学院",
+    "weights": { "gaokao": 0.75, "xuekao": 0.1, "xiaoce": 0.15 },
+    "note": "高考权重最高"
+  }
+]

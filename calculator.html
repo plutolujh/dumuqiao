@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三一计算器 · 独木桥</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <script src="js/main.js"></script>
+  <script>
+    bootstrap();
+  </script>
+
+  <div class="container">
+    <h2 class="page-title">三位一体计算器</h2>
+    <p class="subtitle">输入你的高考分数、学考折算总分和校测成绩，选择目标学校，即可计算综合分。</p>
+
+    <div class="tool-section">
+      <h3>输入你的成绩</h3>
+
+      <div class="form-group">
+        <label class="label" for="schoolSelect">选择学校</label>
+        <select id="schoolSelect" class="select"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="gaokaoScore">高考分数（满分750）</label>
+        <input id="gaokaoScore" type="number" class="input" placeholder="例如 580">
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="xuekaoScore">学考等第折算总分</label>
+        <input id="xuekaoScore" type="number" class="input" placeholder="直接输入折算后的总分">
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="xiaoceScore">校测成绩（满分100）</label>
+        <input id="xiaoceScore" type="number" class="input" placeholder="例如 85">
+      </div>
+
+      <button class="btn" onclick="calculate()">计算综合分</button>
+    </div>
+
+    <div id="resultBox" class="result-box" style="display: none;">
+      <h4>计算结果</h4>
+      <p id="resultScore"></p>
+      <p id="resultNote"></p>
+    </div>
+
+    <div id="formulaCard" class="card" style="display: none;">
+      <h4>权重说明</h4>
+      <p id="formulaText"></p>
+    </div>
+  </div>
+
+  <script type="application/json" id="page-data">[
+  {
+    "name": "浙江工业大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": "学考等第折算：A=15分、B=10分、C=5分、D=2分"
+  },
+  {
+    "name": "浙江财经大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "温州医科大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江工商大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江理工大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙江科技学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "浙大城市学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "绍兴文理学院",
+    "weights": { "gaokao": 0.6, "xuekao": 0.2, "xiaoce": 0.2 },
+    "note": ""
+  },
+  {
+    "name": "杭州师范大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": "校测权重较高"
+  },
+  {
+    "name": "宁波诺丁汉大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": ""
+  },
+  {
+    "name": "温州肯恩大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.15, "xiaoce": 0.25 },
+    "note": ""
+  },
+  {
+    "name": "宁波大学",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "浙江师范大学（复硕）",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "杭州师范大学（复硕）",
+    "weights": { "gaokao": 0.6, "xuekao": 0.1, "xiaoce": 0.3 },
+    "note": ""
+  },
+  {
+    "name": "浙江警察学院",
+    "weights": { "gaokao": 0.75, "xuekao": 0.1, "xiaoce": 0.15 },
+    "note": "高考权重最高"
+  }
+]</script>
+
+  <script>
+    const formulas = getPageData();
+    const schoolSelect = document.getElementById('schoolSelect');
+    const resultBox = document.getElementById('resultBox');
+    const formulaCard = document.getElementById('formulaCard');
+
+    // Populate school dropdown on page load
+    function populateSchoolDropdown() {
+      formulas.forEach(function(school) {
+        const option = document.createElement('option');
+        option.value = school.name;
+        option.textContent = school.name;
+        schoolSelect.appendChild(option);
+      });
+    }
+
+    // Update formula display when school is selected
+    function updateFormulaDisplay() {
+      const selectedName = schoolSelect.value;
+      const school = formulas.find(function(s) { return s.name === selectedName; });
+
+      if (school) {
+        const gaokaoWeight = (school.weights.gaokao * 100).toFixed(0);
+        const xuekaoWeight = (school.weights.xuekao * 100).toFixed(0);
+        const xiaoceWeight = (school.weights.xiaoce * 100).toFixed(0);
+
+        let text = '高考 ' + gaokaoWeight + '% + 学考 ' + xuekaoWeight + '% + 校测 ' + xiaoceWeight + '%';
+        if (school.note) {
+          text += '。' + school.note;
+        }
+
+        document.getElementById('formulaText').textContent = text;
+        formulaCard.style.display = 'block';
+      }
+    }
+
+    // Calculate综合分
+    function calculate() {
+      const selectedName = schoolSelect.value;
+      const school = formulas.find(function(s) { return s.name === selectedName; });
+
+      if (!school) {
+        alert('请选择学校');
+        return;
+      }
+
+      const gaokaoScore = parseFloat(document.getElementById('gaokaoScore').value);
+      const xuekaoScore = parseFloat(document.getElementById('xuekaoScore').value);
+      const xiaoceScore = parseFloat(document.getElementById('xiaoceScore').value);
+
+      if (isNaN(gaokaoScore) || isNaN(xuekaoScore) || isNaN(xiaoceScore)) {
+        alert('请填写所有成绩');
+        return;
+      }
+
+      const gaokaoNormalized = (gaokaoScore / 750) * 100;
+      const 综合分 = gaokaoNormalized * school.weights.gaokao +
+                     xuekaoScore * school.weights.xuekao +
+                     xiaoceScore * school.weights.xiaoce;
+
+      const 综合分Rounded = Math.round(综合分 * 100) / 100;
+
+      document.getElementById('resultScore').textContent = 综合分Rounded + ' 分';
+      document.getElementById('resultNote').textContent = '根据该校的权重计算，你的综合分为 ' + 综合分Rounded + ' 分';
+      resultBox.style.display = 'block';
+    }
+
+    schoolSelect.addEventListener('change', updateFormulaDisplay);
+
+    populateSchoolDropdown();
+  </script>
+
+  <script>
+    document.body.insertAdjacentHTML('beforeend', renderFooter());
+  </script>
+</body>
+</html>
