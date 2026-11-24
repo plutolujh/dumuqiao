@@ -36,7 +36,6 @@ function renderHeader() {
         <a href="strategy.html">首考策略</a>
         <a href="study-materials.html">学习资料</a>
         <a href="changelog.html">更新日志</a>
-        <a href="dashboard.html">流量面板</a>
       </nav>
       <div class="theme-toggle">
         ${themeButtons}
