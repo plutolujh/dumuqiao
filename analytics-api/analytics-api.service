@@ -1,0 +1,25 @@
+[Unit]
+Description=Cloudflare Web Analytics API (standalone read-only proxy, port 3002)
+Documentation=https://github.com/plutolujh/dumuqiao
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/analytics-api
+ExecStart=/usr/bin/node server.js
+# Optional: a dedicated config file with only the Cloudflare keys.
+# The leading "-" means "do not fail if it is absent"; the service then falls
+# back to reading /var/www/tide/.env read-only.
+EnvironmentFile=-/etc/analytics-api/analytics.env
+Environment=PORT=3002
+User=www-data
+Group=www-data
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=analytics-api
+
+[Install]
+WantedBy=multi-user.target

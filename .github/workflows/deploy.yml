@@ -34,6 +34,10 @@ jobs:
           printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
+      # The website is served straight off the filesystem, so the repo root maps
+      # to VPS_DEPLOY_PATH. analytics-api/ lives in this repo too, but it is a
+      # service with its own directory -- it is excluded here and deployed
+      # separately below.
       - name: Deploy website files to VPS
         run: |
           rsync -av --delete \
@@ -41,7 +45,29 @@ jobs:
             --exclude='.git' \
             --exclude='.gitignore' \
             --exclude='.DS_Store' \
+            --exclude='analytics-api' \
             . "$VPS_USER@$VPS_HOST:$VPS_DEPLOY_PATH/"
+
+      # analytics-api is the standalone Cloudflare Web Analytics proxy that
+      # backs the dashboard's /api/analytics. It runs as its own systemd unit
+      # on port 3002 and is deliberately independent of the tide project.
+      #
+      # Credentials are NOT in the repo: /etc/analytics-api/analytics.env must
+      # already exist on the VPS.
+      - name: Deploy analytics-api service to VPS
+        run: |
+          ANALYTICS_PATH="$(dirname "$VPS_DEPLOY_PATH")/analytics-api"
+          KEY="$HOME/.ssh/deploy_key"
+          OPTS="-i $KEY -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
+          ssh $OPTS "$VPS_USER@$VPS_HOST" "install -d -m 755 '$ANALYTICS_PATH'"
+          rsync -av --delete \
+            -e "ssh $OPTS" \
+            analytics-api/ "$VPS_USER@$VPS_HOST:$ANALYTICS_PATH/"
+          ssh $OPTS "$VPS_USER@$VPS_HOST" \
+            "install -m 644 '$ANALYTICS_PATH/analytics-api.service' /etc/systemd/system/analytics-api.service \
+             && systemctl daemon-reload \
+             && systemctl restart analytics-api \
+             && systemctl is-active analytics-api"
 
       - name: Upload website artifact
         uses: actions/upload-artifact@v4
