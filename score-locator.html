@@ -132,7 +132,7 @@
       }
 
       const resultBox = document.getElementById('resultBox');
-      // 过滤可报考的专业（投档线分数 <= 用户分数，说明用户分数够得上）
+      // 投档线分数 <= 用户分数的专业，即用户分数够得上的
       const eligible = schoolData.filter(s => s.score && s.score <= score);
 
       if (eligible.length === 0) {
@@ -145,13 +145,20 @@
         return;
       }
 
-      // 按分数排序
-      eligible.sort((a, b) => b.score - a.score);
-
-      // 分类：冲（投档线比用户分数高0-10分）、稳（在用户分数-15分到0分）、保（低于用户15分以上）
-      const reach = eligible.filter(s => s.score > score && s.score <= score + 15).slice(0, 15);
-      const match = eligible.filter(s => s.score >= score - 15 && s.score <= score).slice(0, 20);
-      const safety = eligible.filter(s => s.score < score - 15).slice(0, 20);
+      // 分类：冲（投档线略高于用户分数，可尝试）、稳（用户分数上下15分内，较稳妥）、保（低于用户15分以上，保底）
+      //
+      // 注意：「冲」档必须从完整数据里筛选，不能从 eligible 里筛。
+      // eligible 的定义是 score <= 用户分数，而「冲」的定义是 score > 用户分数，
+      // 两者互相矛盾，从 eligible 里筛「冲」的结果永远是空的。
+      //
+      // 三档区间互不重叠，且覆盖了用户分数附近的全部区间：
+      //   冲: (score, score + 15]      —— 够不上但差距小，值得一冲
+      //   稳: [score - 15, score]       —— 稳妥
+      //   保: (-∞, score - 15)         —— 保底
+      const byScoreDesc = (a, b) => b.score - a.score;
+      const reach = schoolData.filter(s => s.score && s.score > score && s.score <= score + 15).sort(byScoreDesc).slice(0, 15);
+      const match = eligible.filter(s => s.score >= score - 15 && s.score <= score).sort(byScoreDesc).slice(0, 20);
+      const safety = eligible.filter(s => s.score < score - 15).sort(byScoreDesc).slice(0, 20);
 
       resultBox.style.display = 'block';
       document.getElementById('resultTitle').textContent = '可报考院校专业推荐';
