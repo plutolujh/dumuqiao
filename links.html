@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>高校链接 · 独木桥</title>
+    <meta name="description" content="教育部及985高校官网、本科招生网一键直达，手机端友好浏览。" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "ff1887dca16742aa95b09a15eb7b7708"}'></script>
+  </head>
+  <body>
+    <script src="js/main.js"></script>
+    <script>bootstrap();</script>
+
+    <main class="container" style="margin-top: 40px">
+      <h2 class="page-title">高校链接</h2>
+      <p class="subtitle">从教育部到各高校官网、本科招生网，一键直达。目前收录 985 高校官网与本科招生入口，211 / 双一流整理中。</p>
+
+      <div class="tool-grid">
+        <a href="https://www.moe.gov.cn/" target="_blank" rel="noopener noreferrer" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">🏛️</span> 教育部</h3>
+            <p>中华人民共和国教育部官网</p>
+          </div>
+        </a>
+        <a href="https://gaokao.chsi.com.cn/" target="_blank" rel="noopener noreferrer" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📝</span> 阳光高考</h3>
+            <p>教育部高校招生指定平台</p>
+          </div>
+        </a>
+        <a href="https://www.zjzs.net/" target="_blank" rel="noopener noreferrer" class="tool-card">
+          <div class="card">
+            <h3><span class="icon">📍</span> 浙江省教育考试院</h3>
+            <p>浙江高考政策与成绩查询</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="tool-section">
+        <h3>🔎 筛选985高校</h3>
+        <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
+          <input type="text" id="linkSearch" placeholder="输入院校名称关键词，如「浙江」「大学」" style="flex:1;min-width:180px;" />
+          <button class="btn" onclick="applyFilters()" style="flex-shrink:0;">搜索</button>
+          <button class="btn btn-secondary" onclick="resetLinkFilter()" style="flex-shrink:0;">重置</button>
+        </div>
+        <p id="linkCount" style="font-size:14px;color:var(--text-light);margin-top:12px;"></p>
+      </div>
+
+      <div id="schoolLinks" class="tool-grid"></div>
+
+      <p class="subtitle" style="margin-top:24px;">
+        数据说明：仅收录 985 高校官网与本科招生入口，网址以各校官方发布为准。211 / 双一流院校链接整理中，敬请期待。
+      </p>
+    </main>
+
+    <script>
+      let allLinks = [];
+
+      function escHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+      }
+
+      function renderSchoolLinks(list) {
+        const grid = document.getElementById('schoolLinks');
+        const count = document.getElementById('linkCount');
+        count.textContent = `共 ${list.length} 所 985 高校`;
+        if (!list.length) {
+          grid.innerHTML = '<div class="card"><p style="color:var(--text-light);">没有匹配的高校，换个关键词试试。</p></div>';
+          return;
+        }
+        grid.innerHTML = list.map(s => `
+          <div class="card school-link-card">
+            <h3 style="color:var(--primary);margin-bottom:6px;">${escHtml(s.name)}</h3>
+            <p style="font-size:13px;color:var(--text-light);margin-bottom:10px;">
+              ${escHtml(s.province || '')}${s.minScore ? ' · 2025浙江投档 ' + s.minScore + '–' + s.maxScore + ' 分 · 位次 ' + s.cutoffRank : ''}
+            </p>
+            <div class="link-actions">
+              <a class="btn" href="${escHtml(s.official)}" target="_blank" rel="noopener noreferrer">学校官网</a>
+              <a class="btn btn-secondary" href="${escHtml(s.admissions)}" target="_blank" rel="noopener noreferrer">本科招生</a>
+              <a class="btn btn-secondary" href="university.html?name=${encodeURIComponent(s.name)}">在浙数据</a>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function applyFilters() {
+        const q = (document.getElementById('linkSearch').value || '').trim().toLowerCase();
+        const list = q ? allLinks.filter(s => s.name.toLowerCase().includes(q)) : allLinks;
+        renderSchoolLinks(list);
+      }
+
+      function resetLinkFilter() {
+        document.getElementById('linkSearch').value = '';
+        applyFilters();
+      }
+
+      document.getElementById('linkSearch').addEventListener('keydown', e => {
+        if (e.key === 'Enter') applyFilters();
+      });
+
+      fetch('data/nav-985.json')
+        .then(r => r.json())
+        .then(data => {
+          allLinks = data.schools || [];
+          renderSchoolLinks(allLinks);
+        })
+        .catch(() => {
+          document.getElementById('schoolLinks').innerHTML = '<div class="card"><p style="color:var(--text-light);">数据加载失败，请稍后刷新重试。</p></div>';
+          document.getElementById('linkCount').textContent = '';
+        });
+    </script>
+
+    <script>
+      document.body.insertAdjacentHTML("beforeend", renderFooter());
+    </script>
+  </body>
+</html>

@@ -35,6 +35,7 @@ function renderHeader() {
         <a href="timeline.html">志愿时间轴</a>
         <a href="strategy.html">首考策略</a>
         <a href="study-materials.html">学习资料</a>
+        <a href="links.html">高校链接</a>
         <a href="changelog.html">更新日志</a>
       </nav>
       <div class="theme-toggle">
@@ -46,7 +47,7 @@ function renderHeader() {
 }
 
 // 版本信息
-const VERSION = 'v1.0.3';
+const VERSION = 'v1.1.0';
 
 // 渲染 Footer
 function renderFooter() {

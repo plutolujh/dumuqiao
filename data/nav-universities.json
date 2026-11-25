@@ -1,0 +1,1343 @@
+{
+  "meta": {
+    "title": "高校导航数据（985/211/双一流）",
+    "version": "2026-11-25",
+    "count": 147,
+    "tier_counts": {
+      "985": 39,
+      "211": 73,
+      "双一流": 35
+    },
+    "sources": {
+      "tiers": "985/211/双一流名单（教育部公布，含地矿油分家计入独立法人）",
+      "scores": "data/schools2025.json（2025年浙江省普通类平行志愿投档数据）",
+      "disclaimer_text": "分数/位次为2025年浙江省普通类平行志愿投档数据，仅供参考；招生网址以当年官方发布为准；国防科技大学无普通批投档数据。"
+    },
+    "tier_note": "985=39；211=76（2009 教育部名单，地矿油按分家后独立法人计 6 所；合并计则 73）；双一流新增 32。"
+  },
+  "schools": [
+    {
+      "name": "上海交通大学",
+      "tier": "985",
+      "minScore": 696,
+      "maxScore": 698,
+      "cutoffRank": 191,
+      "bestRank": 143,
+      "majors": 2
+    },
+    {
+      "name": "东北大学",
+      "tier": "985",
+      "minScore": 638,
+      "maxScore": 654,
+      "cutoffRank": 17912,
+      "bestRank": 9042,
+      "majors": 24
+    },
+    {
+      "name": "东南大学",
+      "tier": "985",
+      "minScore": 661,
+      "maxScore": 672,
+      "cutoffRank": 6510,
+      "bestRank": 3014,
+      "majors": 11
+    },
+    {
+      "name": "中南大学",
+      "tier": "985",
+      "minScore": 634,
+      "maxScore": 675,
+      "cutoffRank": 20226,
+      "bestRank": 2373,
+      "majors": 27
+    },
+    {
+      "name": "中国人民大学",
+      "tier": "985",
+      "minScore": 680,
+      "maxScore": 694,
+      "cutoffRank": 1474,
+      "bestRank": 281,
+      "majors": 21
+    },
+    {
+      "name": "中国农业大学",
+      "tier": "985",
+      "minScore": 642,
+      "maxScore": 660,
+      "cutoffRank": 15471,
+      "bestRank": 6760,
+      "majors": 36
+    },
+    {
+      "name": "中国海洋大学",
+      "tier": "985",
+      "minScore": 635,
+      "maxScore": 656,
+      "cutoffRank": 19584,
+      "bestRank": 8225,
+      "majors": 37
+    },
+    {
+      "name": "中国科学技术大学",
+      "tier": "985",
+      "minScore": 675,
+      "maxScore": 677,
+      "cutoffRank": 2528,
+      "bestRank": 1973,
+      "majors": 5
+    },
+    {
+      "name": "中央民族大学",
+      "tier": "985",
+      "minScore": 623,
+      "maxScore": 660,
+      "cutoffRank": 28685,
+      "bestRank": 6677,
+      "majors": 25
+    },
+    {
+      "name": "中山大学",
+      "tier": "985",
+      "minScore": 656,
+      "maxScore": 679,
+      "cutoffRank": 8295,
+      "bestRank": 1695,
+      "majors": 21
+    },
+    {
+      "name": "兰州大学",
+      "tier": "985",
+      "minScore": 642,
+      "maxScore": 653,
+      "cutoffRank": 15604,
+      "bestRank": 9904,
+      "majors": 30
+    },
+    {
+      "name": "北京大学",
+      "tier": "985",
+      "minScore": 700,
+      "maxScore": 712,
+      "cutoffRank": 100,
+      "bestRank": 5,
+      "majors": 4
+    },
+    {
+      "name": "北京师范大学",
+      "tier": "985",
+      "minScore": 658,
+      "maxScore": 669,
+      "cutoffRank": 7660,
+      "bestRank": 3831,
+      "majors": 8
+    },
+    {
+      "name": "北京理工大学",
+      "tier": "985",
+      "minScore": 652,
+      "maxScore": 676,
+      "cutoffRank": 10091,
+      "bestRank": 2184,
+      "majors": 10
+    },
+    {
+      "name": "北京航空航天大学",
+      "tier": "985",
+      "minScore": 666,
+      "maxScore": 687,
+      "cutoffRank": 4849,
+      "bestRank": 737,
+      "majors": 13
+    },
+    {
+      "name": "华东师范大学",
+      "tier": "985",
+      "minScore": 657,
+      "maxScore": 674,
+      "cutoffRank": 7999,
+      "bestRank": 2727,
+      "majors": 31
+    },
+    {
+      "name": "华中科技大学",
+      "tier": "985",
+      "minScore": 643,
+      "maxScore": 678,
+      "cutoffRank": 14548,
+      "bestRank": 1825,
+      "majors": 32
+    },
+    {
+      "name": "华南理工大学",
+      "tier": "985",
+      "minScore": 655,
+      "maxScore": 664,
+      "cutoffRank": 8590,
+      "bestRank": 5258,
+      "majors": 20
+    },
+    {
+      "name": "南京大学",
+      "tier": "985",
+      "minScore": 656,
+      "maxScore": 687,
+      "cutoffRank": 8445,
+      "bestRank": 693,
+      "majors": 13
+    },
+    {
+      "name": "南开大学",
+      "tier": "985",
+      "minScore": 654,
+      "maxScore": 668,
+      "cutoffRank": 9047,
+      "bestRank": 4115,
+      "majors": 16
+    },
+    {
+      "name": "厦门大学",
+      "tier": "985",
+      "minScore": 656,
+      "maxScore": 671,
+      "cutoffRank": 8294,
+      "bestRank": 3381,
+      "majors": 19
+    },
+    {
+      "name": "吉林大学",
+      "tier": "985",
+      "minScore": 639,
+      "maxScore": 669,
+      "cutoffRank": 17005,
+      "bestRank": 3733,
+      "majors": 53
+    },
+    {
+      "name": "同济大学",
+      "tier": "985",
+      "minScore": 660,
+      "maxScore": 674,
+      "cutoffRank": 6685,
+      "bestRank": 2630,
+      "majors": 12
+    },
+    {
+      "name": "哈尔滨工业大学",
+      "tier": "985",
+      "minScore": 640,
+      "maxScore": 681,
+      "cutoffRank": 16203,
+      "bestRank": 1380,
+      "majors": 10
+    },
+    {
+      "name": "四川大学",
+      "tier": "985",
+      "minScore": 647,
+      "maxScore": 681,
+      "cutoffRank": 12743,
+      "bestRank": 1452,
+      "majors": 33
+    },
+    {
+      "name": "国防科技大学",
+      "tier": "985",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "复旦大学",
+      "tier": "985",
+      "minScore": 694,
+      "maxScore": 699,
+      "cutoffRank": 278,
+      "bestRank": 113,
+      "majors": 3
+    },
+    {
+      "name": "大连理工大学",
+      "tier": "985",
+      "minScore": 639,
+      "maxScore": 666,
+      "cutoffRank": 16926,
+      "bestRank": 4655,
+      "majors": 12
+    },
+    {
+      "name": "天津大学",
+      "tier": "985",
+      "minScore": 654,
+      "maxScore": 662,
+      "cutoffRank": 9150,
+      "bestRank": 5865,
+      "majors": 9
+    },
+    {
+      "name": "山东大学",
+      "tier": "985",
+      "minScore": 650,
+      "maxScore": 667,
+      "cutoffRank": 11140,
+      "bestRank": 4447,
+      "majors": 29
+    },
+    {
+      "name": "武汉大学",
+      "tier": "985",
+      "minScore": 660,
+      "maxScore": 677,
+      "cutoffRank": 6737,
+      "bestRank": 2000,
+      "majors": 37
+    },
+    {
+      "name": "浙江大学",
+      "tier": "985",
+      "minScore": 658,
+      "maxScore": 695,
+      "cutoffRank": 7462,
+      "bestRank": 202,
+      "majors": 24
+    },
+    {
+      "name": "清华大学",
+      "tier": "985",
+      "minScore": 694,
+      "maxScore": 700,
+      "cutoffRank": 256,
+      "bestRank": 102,
+      "majors": 3
+    },
+    {
+      "name": "湖南大学",
+      "tier": "985",
+      "minScore": 649,
+      "maxScore": 660,
+      "cutoffRank": 11675,
+      "bestRank": 6759,
+      "majors": 35
+    },
+    {
+      "name": "电子科技大学",
+      "tier": "985",
+      "minScore": 656,
+      "maxScore": 672,
+      "cutoffRank": 8246,
+      "bestRank": 2980,
+      "majors": 17
+    },
+    {
+      "name": "西北农林科技大学",
+      "tier": "985",
+      "minScore": 611,
+      "maxScore": 649,
+      "cutoffRank": 39967,
+      "bestRank": 11707,
+      "majors": 34
+    },
+    {
+      "name": "西北工业大学",
+      "tier": "985",
+      "minScore": 644,
+      "maxScore": 666,
+      "cutoffRank": 13999,
+      "bestRank": 4697,
+      "majors": 21
+    },
+    {
+      "name": "西安交通大学",
+      "tier": "985",
+      "minScore": 636,
+      "maxScore": 675,
+      "cutoffRank": 19144,
+      "bestRank": 2323,
+      "majors": 27
+    },
+    {
+      "name": "重庆大学",
+      "tier": "985",
+      "minScore": 645,
+      "maxScore": 661,
+      "cutoffRank": 13772,
+      "bestRank": 6341,
+      "majors": 13
+    },
+    {
+      "name": "上海外国语大学",
+      "tier": "211",
+      "minScore": 650,
+      "maxScore": 657,
+      "cutoffRank": 11072,
+      "bestRank": 8107,
+      "majors": 17
+    },
+    {
+      "name": "上海大学",
+      "tier": "211",
+      "minScore": 630,
+      "maxScore": 655,
+      "cutoffRank": 23709,
+      "bestRank": 8975,
+      "majors": 25
+    },
+    {
+      "name": "上海财经大学",
+      "tier": "211",
+      "minScore": 653,
+      "maxScore": 671,
+      "cutoffRank": 9647,
+      "bestRank": 3295,
+      "majors": 28
+    },
+    {
+      "name": "东北农业大学",
+      "tier": "211",
+      "minScore": 541,
+      "maxScore": 630,
+      "cutoffRank": 123189,
+      "bestRank": 23573,
+      "majors": 12
+    },
+    {
+      "name": "东北师范大学",
+      "tier": "211",
+      "minScore": 597,
+      "maxScore": 649,
+      "cutoffRank": 55829,
+      "bestRank": 11324,
+      "majors": 14
+    },
+    {
+      "name": "东北林业大学",
+      "tier": "211",
+      "minScore": 592,
+      "maxScore": 637,
+      "cutoffRank": 60438,
+      "bestRank": 18566,
+      "majors": 29
+    },
+    {
+      "name": "东华大学",
+      "tier": "211",
+      "minScore": 635,
+      "maxScore": 653,
+      "cutoffRank": 19585,
+      "bestRank": 9638,
+      "majors": 26
+    },
+    {
+      "name": "中南财经政法大学",
+      "tier": "211",
+      "minScore": 613,
+      "maxScore": 660,
+      "cutoffRank": 38379,
+      "bestRank": 6757,
+      "majors": 20
+    },
+    {
+      "name": "中国传媒大学",
+      "tier": "211",
+      "minScore": 607,
+      "maxScore": 657,
+      "cutoffRank": 44137,
+      "bestRank": 8102,
+      "majors": 25
+    },
+    {
+      "name": "中国地质大学（北京）",
+      "tier": "211",
+      "minScore": 617,
+      "maxScore": 650,
+      "cutoffRank": 34346,
+      "bestRank": 11260,
+      "majors": 38
+    },
+    {
+      "name": "中国地质大学（武汉）",
+      "tier": "211",
+      "minScore": 601,
+      "maxScore": 645,
+      "cutoffRank": 50858,
+      "bestRank": 13922,
+      "majors": 35
+    },
+    {
+      "name": "中国政法大学",
+      "tier": "211",
+      "minScore": 646,
+      "maxScore": 679,
+      "cutoffRank": 12981,
+      "bestRank": 1625,
+      "majors": 22
+    },
+    {
+      "name": "中国石油大学（北京）",
+      "tier": "211",
+      "minScore": 627,
+      "maxScore": 646,
+      "cutoffRank": 25839,
+      "bestRank": 13014,
+      "majors": 20
+    },
+    {
+      "name": "中国石油大学（华东）",
+      "tier": "211",
+      "minScore": 623,
+      "maxScore": 642,
+      "cutoffRank": 29229,
+      "bestRank": 15529,
+      "majors": 22
+    },
+    {
+      "name": "中国矿业大学",
+      "tier": "211",
+      "minScore": 599,
+      "maxScore": 647,
+      "cutoffRank": 52740,
+      "bestRank": 12678,
+      "majors": 24
+    },
+    {
+      "name": "中国矿业大学（北京）",
+      "tier": "211",
+      "minScore": 617,
+      "maxScore": 643,
+      "cutoffRank": 34065,
+      "bestRank": 14922,
+      "majors": 18
+    },
+    {
+      "name": "中国药科大学",
+      "tier": "211",
+      "minScore": 620,
+      "maxScore": 654,
+      "cutoffRank": 31253,
+      "bestRank": 9053,
+      "majors": 15
+    },
+    {
+      "name": "中央财经大学",
+      "tier": "211",
+      "minScore": 649,
+      "maxScore": 662,
+      "cutoffRank": 11410,
+      "bestRank": 6115,
+      "majors": 16
+    },
+    {
+      "name": "中央音乐学院",
+      "tier": "211",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "云南大学",
+      "tier": "211",
+      "minScore": 577,
+      "maxScore": 648,
+      "cutoffRank": 78672,
+      "bestRank": 12181,
+      "majors": 55
+    },
+    {
+      "name": "内蒙古大学",
+      "tier": "211",
+      "minScore": 579,
+      "maxScore": 636,
+      "cutoffRank": 76485,
+      "bestRank": 19097,
+      "majors": 22
+    },
+    {
+      "name": "北京中医药大学",
+      "tier": "211",
+      "minScore": 597,
+      "maxScore": 668,
+      "cutoffRank": 55521,
+      "bestRank": 4074,
+      "majors": 20
+    },
+    {
+      "name": "北京交通大学",
+      "tier": "211",
+      "minScore": 634,
+      "maxScore": 656,
+      "cutoffRank": 20706,
+      "bestRank": 8473,
+      "majors": 15
+    },
+    {
+      "name": "北京体育大学",
+      "tier": "211",
+      "minScore": 589,
+      "maxScore": 652,
+      "cutoffRank": 64561,
+      "bestRank": 10240,
+      "majors": 14
+    },
+    {
+      "name": "北京化工大学",
+      "tier": "211",
+      "minScore": 611,
+      "maxScore": 649,
+      "cutoffRank": 40600,
+      "bestRank": 11750,
+      "majors": 23
+    },
+    {
+      "name": "北京外国语大学",
+      "tier": "211",
+      "minScore": 647,
+      "maxScore": 665,
+      "cutoffRank": 12335,
+      "bestRank": 5152,
+      "majors": 24
+    },
+    {
+      "name": "北京工业大学",
+      "tier": "211",
+      "minScore": 624,
+      "maxScore": 647,
+      "cutoffRank": 28035,
+      "bestRank": 12592,
+      "majors": 9
+    },
+    {
+      "name": "北京林业大学",
+      "tier": "211",
+      "minScore": 600,
+      "maxScore": 652,
+      "cutoffRank": 51657,
+      "bestRank": 10317,
+      "majors": 51
+    },
+    {
+      "name": "北京科技大学",
+      "tier": "211",
+      "minScore": 643,
+      "maxScore": 656,
+      "cutoffRank": 14611,
+      "bestRank": 8381,
+      "majors": 21
+    },
+    {
+      "name": "北京邮电大学",
+      "tier": "211",
+      "minScore": 642,
+      "maxScore": 666,
+      "cutoffRank": 15406,
+      "bestRank": 4704,
+      "majors": 16
+    },
+    {
+      "name": "华东理工大学",
+      "tier": "211",
+      "minScore": 638,
+      "maxScore": 655,
+      "cutoffRank": 17598,
+      "bestRank": 8599,
+      "majors": 25
+    },
+    {
+      "name": "华中农业大学",
+      "tier": "211",
+      "minScore": 579,
+      "maxScore": 648,
+      "cutoffRank": 77019,
+      "bestRank": 12201,
+      "majors": 30
+    },
+    {
+      "name": "华中师范大学",
+      "tier": "211",
+      "minScore": 626,
+      "maxScore": 659,
+      "cutoffRank": 26629,
+      "bestRank": 7190,
+      "majors": 29
+    },
+    {
+      "name": "华北电力大学",
+      "tier": "211",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "华南师范大学",
+      "tier": "211",
+      "minScore": 619,
+      "maxScore": 655,
+      "cutoffRank": 32401,
+      "bestRank": 8862,
+      "majors": 17
+    },
+    {
+      "name": "南京农业大学",
+      "tier": "211",
+      "minScore": 617,
+      "maxScore": 649,
+      "cutoffRank": 34454,
+      "bestRank": 11720,
+      "majors": 40
+    },
+    {
+      "name": "南京师范大学",
+      "tier": "211",
+      "minScore": 627,
+      "maxScore": 661,
+      "cutoffRank": 25750,
+      "bestRank": 6334,
+      "majors": 21
+    },
+    {
+      "name": "南京理工大学",
+      "tier": "211",
+      "minScore": 647,
+      "maxScore": 653,
+      "cutoffRank": 12599,
+      "bestRank": 9621,
+      "majors": 20
+    },
+    {
+      "name": "南京航空航天大学",
+      "tier": "211",
+      "minScore": 642,
+      "maxScore": 659,
+      "cutoffRank": 15445,
+      "bestRank": 7061,
+      "majors": 39
+    },
+    {
+      "name": "南昌大学",
+      "tier": "211",
+      "minScore": 604,
+      "maxScore": 650,
+      "cutoffRank": 47143,
+      "bestRank": 11061,
+      "majors": 57
+    },
+    {
+      "name": "合肥工业大学",
+      "tier": "211",
+      "minScore": 628,
+      "maxScore": 649,
+      "cutoffRank": 25145,
+      "bestRank": 11706,
+      "majors": 32
+    },
+    {
+      "name": "哈尔滨工程大学",
+      "tier": "211",
+      "minScore": 603,
+      "maxScore": 651,
+      "cutoffRank": 48699,
+      "bestRank": 10546,
+      "majors": 23
+    },
+    {
+      "name": "四川农业大学",
+      "tier": "211",
+      "minScore": 587,
+      "maxScore": 636,
+      "cutoffRank": 67241,
+      "bestRank": 19142,
+      "majors": 43
+    },
+    {
+      "name": "大连海事大学",
+      "tier": "211",
+      "minScore": 588,
+      "maxScore": 649,
+      "cutoffRank": 65750,
+      "bestRank": 11760,
+      "majors": 15
+    },
+    {
+      "name": "天津医科大学",
+      "tier": "211",
+      "minScore": 629,
+      "maxScore": 662,
+      "cutoffRank": 23907,
+      "bestRank": 5895,
+      "majors": 11
+    },
+    {
+      "name": "太原理工大学",
+      "tier": "211",
+      "minScore": 597,
+      "maxScore": 641,
+      "cutoffRank": 55026,
+      "bestRank": 15938,
+      "majors": 52
+    },
+    {
+      "name": "宁夏大学",
+      "tier": "211",
+      "minScore": 557,
+      "maxScore": 611,
+      "cutoffRank": 103809,
+      "bestRank": 40521,
+      "majors": 9
+    },
+    {
+      "name": "安徽大学",
+      "tier": "211",
+      "minScore": 601,
+      "maxScore": 651,
+      "cutoffRank": 50374,
+      "bestRank": 10777,
+      "majors": 19
+    },
+    {
+      "name": "对外经济贸易大学",
+      "tier": "211",
+      "minScore": 636,
+      "maxScore": 665,
+      "cutoffRank": 18955,
+      "bestRank": 5109,
+      "majors": 14
+    },
+    {
+      "name": "广西大学",
+      "tier": "211",
+      "minScore": 582,
+      "maxScore": 633,
+      "cutoffRank": 73433,
+      "bestRank": 21502,
+      "majors": 7
+    },
+    {
+      "name": "延边大学",
+      "tier": "211",
+      "minScore": 589,
+      "maxScore": 636,
+      "cutoffRank": 64234,
+      "bestRank": 18974,
+      "majors": 13
+    },
+    {
+      "name": "新疆大学",
+      "tier": "211",
+      "minScore": 568,
+      "maxScore": 628,
+      "cutoffRank": 89749,
+      "bestRank": 25099,
+      "majors": 40
+    },
+    {
+      "name": "暨南大学",
+      "tier": "211",
+      "minScore": 627,
+      "maxScore": 658,
+      "cutoffRank": 25394,
+      "bestRank": 7560,
+      "majors": 25
+    },
+    {
+      "name": "武汉理工大学",
+      "tier": "211",
+      "minScore": 612,
+      "maxScore": 652,
+      "cutoffRank": 39262,
+      "bestRank": 10223,
+      "majors": 38
+    },
+    {
+      "name": "江南大学",
+      "tier": "211",
+      "minScore": 619,
+      "maxScore": 650,
+      "cutoffRank": 32585,
+      "bestRank": 11104,
+      "majors": 54
+    },
+    {
+      "name": "河北工业大学",
+      "tier": "211",
+      "minScore": 602,
+      "maxScore": 643,
+      "cutoffRank": 49426,
+      "bestRank": 14524,
+      "majors": 16
+    },
+    {
+      "name": "河海大学",
+      "tier": "211",
+      "minScore": 613,
+      "maxScore": 654,
+      "cutoffRank": 38082,
+      "bestRank": 9373,
+      "majors": 56
+    },
+    {
+      "name": "海军军医大学",
+      "tier": "211",
+      "minScore": 625,
+      "maxScore": 644,
+      "cutoffRank": 27701,
+      "bestRank": 13948,
+      "majors": 8
+    },
+    {
+      "name": "海南大学",
+      "tier": "211",
+      "minScore": 581,
+      "maxScore": 648,
+      "cutoffRank": 73654,
+      "bestRank": 11879,
+      "majors": 67
+    },
+    {
+      "name": "湖南师范大学",
+      "tier": "211",
+      "minScore": 613,
+      "maxScore": 652,
+      "cutoffRank": 38329,
+      "bestRank": 10232,
+      "majors": 42
+    },
+    {
+      "name": "石河子大学",
+      "tier": "211",
+      "minScore": 546,
+      "maxScore": 616,
+      "cutoffRank": 116993,
+      "bestRank": 35221,
+      "majors": 24
+    },
+    {
+      "name": "福州大学",
+      "tier": "211",
+      "minScore": 615,
+      "maxScore": 651,
+      "cutoffRank": 36162,
+      "bestRank": 10743,
+      "majors": 30
+    },
+    {
+      "name": "空军军医大学",
+      "tier": "211",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "苏州大学",
+      "tier": "211",
+      "minScore": 631,
+      "maxScore": 664,
+      "cutoffRank": 22407,
+      "bestRank": 5344,
+      "majors": 22
+    },
+    {
+      "name": "西北大学",
+      "tier": "211",
+      "minScore": 609,
+      "maxScore": 654,
+      "cutoffRank": 42387,
+      "bestRank": 9140,
+      "majors": 20
+    },
+    {
+      "name": "西南交通大学",
+      "tier": "211",
+      "minScore": 595,
+      "maxScore": 651,
+      "cutoffRank": 57314,
+      "bestRank": 10720,
+      "majors": 59
+    },
+    {
+      "name": "西南大学",
+      "tier": "211",
+      "minScore": 597,
+      "maxScore": 654,
+      "cutoffRank": 55204,
+      "bestRank": 9100,
+      "majors": 41
+    },
+    {
+      "name": "西南财经大学",
+      "tier": "211",
+      "minScore": 627,
+      "maxScore": 659,
+      "cutoffRank": 25737,
+      "bestRank": 7091,
+      "majors": 30
+    },
+    {
+      "name": "西安电子科技大学",
+      "tier": "211",
+      "minScore": 637,
+      "maxScore": 653,
+      "cutoffRank": 18286,
+      "bestRank": 9859,
+      "majors": 14
+    },
+    {
+      "name": "西藏大学",
+      "tier": "211",
+      "minScore": 544,
+      "maxScore": 609,
+      "cutoffRank": 119492,
+      "bestRank": 42449,
+      "majors": 8
+    },
+    {
+      "name": "贵州大学",
+      "tier": "211",
+      "minScore": 550,
+      "maxScore": 634,
+      "cutoffRank": 111990,
+      "bestRank": 20686,
+      "majors": 26
+    },
+    {
+      "name": "辽宁大学",
+      "tier": "211",
+      "minScore": 597,
+      "maxScore": 646,
+      "cutoffRank": 55587,
+      "bestRank": 13214,
+      "majors": 16
+    },
+    {
+      "name": "郑州大学",
+      "tier": "211",
+      "minScore": 606,
+      "maxScore": 639,
+      "cutoffRank": 45348,
+      "bestRank": 17143,
+      "majors": 18
+    },
+    {
+      "name": "上海中医药大学",
+      "tier": "双一流",
+      "minScore": 604,
+      "maxScore": 660,
+      "cutoffRank": 47074,
+      "bestRank": 6820,
+      "majors": 11
+    },
+    {
+      "name": "上海体育大学",
+      "tier": "双一流",
+      "minScore": 594,
+      "maxScore": 630,
+      "cutoffRank": 58180,
+      "bestRank": 23638,
+      "majors": 7
+    },
+    {
+      "name": "上海海洋大学",
+      "tier": "双一流",
+      "minScore": 591,
+      "maxScore": 623,
+      "cutoffRank": 61883,
+      "bestRank": 28655,
+      "majors": 12
+    },
+    {
+      "name": "上海科技大学",
+      "tier": "双一流",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "上海音乐学院",
+      "tier": "双一流",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "中国人民公安大学",
+      "tier": "双一流",
+      "minScore": 656,
+      "maxScore": 656,
+      "cutoffRank": 8432,
+      "bestRank": 8432,
+      "majors": 1
+    },
+    {
+      "name": "中国科学院大学",
+      "tier": "双一流",
+      "minScore": 691,
+      "maxScore": 696,
+      "cutoffRank": 403,
+      "bestRank": 193,
+      "majors": 2
+    },
+    {
+      "name": "中国美术学院",
+      "tier": "双一流",
+      "minScore": 595,
+      "maxScore": 613,
+      "cutoffRank": 57573,
+      "bestRank": 38496,
+      "majors": 6
+    },
+    {
+      "name": "中国音乐学院",
+      "tier": "双一流",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "中央戏剧学院",
+      "tier": "双一流",
+      "minScore": 621,
+      "maxScore": 659,
+      "cutoffRank": 31061,
+      "bestRank": 7122,
+      "majors": 6
+    },
+    {
+      "name": "中央美术学院",
+      "tier": "双一流",
+      "minScore": 598,
+      "maxScore": 630,
+      "cutoffRank": 54526,
+      "bestRank": 23165,
+      "majors": 4
+    },
+    {
+      "name": "北京协和医学院",
+      "tier": "双一流",
+      "minScore": 608,
+      "maxScore": 652,
+      "cutoffRank": 43363,
+      "bestRank": 10351,
+      "majors": 2
+    },
+    {
+      "name": "华南农业大学",
+      "tier": "双一流",
+      "minScore": 568,
+      "maxScore": 621,
+      "cutoffRank": 89475,
+      "bestRank": 30469,
+      "majors": 50
+    },
+    {
+      "name": "南京中医药大学",
+      "tier": "双一流",
+      "minScore": 579,
+      "maxScore": 645,
+      "cutoffRank": 76540,
+      "bestRank": 13898,
+      "majors": 7
+    },
+    {
+      "name": "南京信息工程大学",
+      "tier": "双一流",
+      "minScore": 602,
+      "maxScore": 639,
+      "cutoffRank": 49215,
+      "bestRank": 16993,
+      "majors": 46
+    },
+    {
+      "name": "南京医科大学",
+      "tier": "双一流",
+      "minScore": 605,
+      "maxScore": 663,
+      "cutoffRank": 46248,
+      "bestRank": 5572,
+      "majors": 17
+    },
+    {
+      "name": "南京林业大学",
+      "tier": "双一流",
+      "minScore": 599,
+      "maxScore": 634,
+      "cutoffRank": 52846,
+      "bestRank": 20414,
+      "majors": 19
+    },
+    {
+      "name": "南京邮电大学",
+      "tier": "双一流",
+      "minScore": 635,
+      "maxScore": 645,
+      "cutoffRank": 19807,
+      "bestRank": 13456,
+      "majors": 19
+    },
+    {
+      "name": "南方科技大学",
+      "tier": "双一流",
+      "minScore": 660,
+      "maxScore": 660,
+      "cutoffRank": 6753,
+      "bestRank": 6753,
+      "majors": 1
+    },
+    {
+      "name": "外交学院",
+      "tier": "双一流",
+      "minScore": null,
+      "maxScore": null,
+      "cutoffRank": null,
+      "bestRank": null,
+      "majors": null
+    },
+    {
+      "name": "天津中医药大学",
+      "tier": "双一流",
+      "minScore": 581,
+      "maxScore": 660,
+      "cutoffRank": 74215,
+      "bestRank": 6927,
+      "majors": 21
+    },
+    {
+      "name": "天津工业大学",
+      "tier": "双一流",
+      "minScore": 589,
+      "maxScore": 627,
+      "cutoffRank": 64071,
+      "bestRank": 25393,
+      "majors": 33
+    },
+    {
+      "name": "宁波大学",
+      "tier": "双一流",
+      "minScore": 596,
+      "maxScore": 650,
+      "cutoffRank": 55999,
+      "bestRank": 11215,
+      "majors": 60
+    },
+    {
+      "name": "山西大学",
+      "tier": "双一流",
+      "minScore": 557,
+      "maxScore": 631,
+      "cutoffRank": 103087,
+      "bestRank": 22516,
+      "majors": 34
+    },
+    {
+      "name": "广州中医药大学",
+      "tier": "双一流",
+      "minScore": 590,
+      "maxScore": 658,
+      "cutoffRank": 63134,
+      "bestRank": 7594,
+      "majors": 16
+    },
+    {
+      "name": "广州医科大学",
+      "tier": "双一流",
+      "minScore": 587,
+      "maxScore": 644,
+      "cutoffRank": 67181,
+      "bestRank": 14163,
+      "majors": 5
+    },
+    {
+      "name": "成都中医药大学",
+      "tier": "双一流",
+      "minScore": 553,
+      "maxScore": 656,
+      "cutoffRank": 108281,
+      "bestRank": 8457,
+      "majors": 17
+    },
+    {
+      "name": "成都理工大学",
+      "tier": "双一流",
+      "minScore": 571,
+      "maxScore": 622,
+      "cutoffRank": 86066,
+      "bestRank": 29925,
+      "majors": 17
+    },
+    {
+      "name": "河南大学",
+      "tier": "双一流",
+      "minScore": 549,
+      "maxScore": 639,
+      "cutoffRank": 113108,
+      "bestRank": 17134,
+      "majors": 31
+    },
+    {
+      "name": "湘潭大学",
+      "tier": "双一流",
+      "minScore": 594,
+      "maxScore": 648,
+      "cutoffRank": 58940,
+      "bestRank": 12287,
+      "majors": 38
+    },
+    {
+      "name": "西南石油大学",
+      "tier": "双一流",
+      "minScore": 606,
+      "maxScore": 626,
+      "cutoffRank": 45724,
+      "bestRank": 26741,
+      "majors": 12
+    },
+    {
+      "name": "长安大学",
+      "tier": "双一流",
+      "minScore": 595,
+      "maxScore": 649,
+      "cutoffRank": 57164,
+      "bestRank": 11488,
+      "majors": 44
+    },
+    {
+      "name": "陕西师范大学",
+      "tier": "双一流",
+      "minScore": 598,
+      "maxScore": 653,
+      "cutoffRank": 54016,
+      "bestRank": 9602,
+      "majors": 13
+    },
+    {
+      "name": "青海大学",
+      "tier": "双一流",
+      "minScore": 544,
+      "maxScore": 633,
+      "cutoffRank": 119066,
+      "bestRank": 21613,
+      "majors": 50
+    },
+    {
+      "name": "首都师范大学",
+      "tier": "双一流",
+      "minScore": 623,
+      "maxScore": 653,
+      "cutoffRank": 29273,
+      "bestRank": 9826,
+      "majors": 14
+    }
+  ]
+}
