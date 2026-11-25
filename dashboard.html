@@ -47,7 +47,7 @@
 
     <script>
       const API_BASE = (() => {
-        // 优先使用同源 /api/analytics（需 nginx 代理到 tide sync-server：3001）
+        // 优先使用同源 /api/analytics（需 nginx 代理到独立的 analytics-api 服务：3002）
         // 若部署在非同域，可在此填完整 VPS 地址，如 'https://vps.example.com/api/analytics'
         return '/api/analytics';
       })();
@@ -152,7 +152,7 @@
           status.textContent = '✅ Cloudflare 数据已加载（' + data.range.start + ' 至 ' + data.range.end + '）';
           renderSummary(data);
         } catch (e) {
-          status.textContent = '⚠️ Cloudflare 数据获取失败：' + e.message + '（请确保 VPS 上 tide sync-server 已启动并配置 CLOUDFLARE_API_TOKEN，以及 nginx 已把 /api/analytics 代理到 :3001）';
+          status.textContent = '⚠️ Cloudflare 数据获取失败：' + e.message + '（请确保 VPS 上 analytics-api 服务已启动并配置 Cloudflare 凭据，以及 nginx 已把 /api/analytics 代理到 :3002）';
           console.error(e);
           // 仍渲染本地埋点
           renderSummary({ totalVisits: 0, paths: [], devices: [], browsers: [], countries: [], daily: [] });
