@@ -60,7 +60,7 @@ jobs:
           KEY="$HOME/.ssh/deploy_key"
           OPTS="-i $KEY -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts"
           ssh $OPTS "$VPS_USER@$VPS_HOST" "install -d -m 755 '$ANALYTICS_PATH'"
-          rsync -av --delete \
+          rsync -av --delete --chown=root:root \
             -e "ssh $OPTS" \
             analytics-api/ "$VPS_USER@$VPS_HOST:$ANALYTICS_PATH/"
           ssh $OPTS "$VPS_USER@$VPS_HOST" \
