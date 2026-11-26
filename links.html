@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>高校链接 · 独木桥</title>
-    <meta name="description" content="教育部及985高校官网、本科招生网一键直达，手机端友好浏览。" />
+    <meta name="description" content="教育部及985/211/双一流高校官网、本科招生网一键直达，手机端友好浏览。" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap"
@@ -19,7 +19,7 @@
 
     <main class="container" style="margin-top: 40px">
       <h2 class="page-title">高校链接</h2>
-      <p class="subtitle">从教育部到各高校官网、本科招生网，一键直达。目前收录 985 高校官网与本科招生入口，211 / 双一流整理中。</p>
+      <p class="subtitle">从教育部到各高校官网、本科招生网，一键直达。支持按院校名称搜索，并按 985 / 211 / 双一流 筛选。</p>
 
       <div class="tool-grid">
         <a href="https://www.moe.gov.cn/" target="_blank" rel="noopener noreferrer" class="tool-card">
@@ -43,9 +43,15 @@
       </div>
 
       <div class="tool-section">
-        <h3>🔎 筛选985高校</h3>
+        <h3>🔎 筛选高校</h3>
         <div class="form-group" style="display:flex;gap:12px;flex-wrap:wrap;">
           <input type="text" id="linkSearch" placeholder="输入院校名称关键词，如「浙江」「大学」" style="flex:1;min-width:180px;" />
+          <select id="linkTierFilter" style="padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);">
+            <option value="">全部层次</option>
+            <option value="985">985高校</option>
+            <option value="211">211高校</option>
+            <option value="双一流">双一流高校</option>
+          </select>
           <button class="btn" onclick="applyFilters()" style="flex-shrink:0;">搜索</button>
           <button class="btn btn-secondary" onclick="resetLinkFilter()" style="flex-shrink:0;">重置</button>
         </div>
@@ -55,7 +61,7 @@
       <div id="schoolLinks" class="tool-grid"></div>
 
       <p class="subtitle" style="margin-top:24px;">
-        数据说明：仅收录 985 高校官网与本科招生入口，网址以各校官方发布为准。211 / 双一流院校链接整理中，敬请期待。
+        数据说明：官网与本科招生入口以各校官方发布为准，部分院校仅提供官网。学校名称按导航数据统一展示。
       </p>
     </main>
 
@@ -66,24 +72,26 @@
         return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
       }
 
+      function tierLabel(t) {
+        const map = { 985: '985', 211: '211', 双一流: '双一流' };
+        return map[t] || '';
+      }
+
       function renderSchoolLinks(list) {
         const grid = document.getElementById('schoolLinks');
         const count = document.getElementById('linkCount');
-        count.textContent = `共 ${list.length} 所 985 高校`;
+        count.textContent = `共 ${list.length} 所院校`;
         if (!list.length) {
           grid.innerHTML = '<div class="card"><p style="color:var(--text-light);">没有匹配的高校，换个关键词试试。</p></div>';
           return;
         }
         grid.innerHTML = list.map(s => `
           <div class="card school-link-card">
-            <h3 style="color:var(--primary);margin-bottom:6px;">${escHtml(s.name)}</h3>
-            <p style="font-size:13px;color:var(--text-light);margin-bottom:10px;">
-              ${escHtml(s.province || '')}${s.minScore ? ' · 2025浙江投档 ' + s.minScore + '–' + s.maxScore + ' 分 · 位次 ' + s.cutoffRank : ''}
-            </p>
+            <h3 style="color:var(--primary);margin-bottom:6px;">${escHtml(s.name)} ${tierLabel(s.tier) ? '<span style="font-size:13px;color:var(--text-light);margin-left:8px;">' + tierLabel(s.tier) + '</span>' : ''}</h3>
+            <p style="font-size:13px;color:var(--text-light);margin-bottom:10px;">${escHtml(s.province || '')}</p>
             <div class="link-actions">
-              <a class="btn" href="${escHtml(s.official)}" target="_blank" rel="noopener noreferrer">学校官网</a>
-              <a class="btn btn-secondary" href="${escHtml(s.admissions)}" target="_blank" rel="noopener noreferrer">本科招生</a>
-              <a class="btn btn-secondary" href="university.html?name=${encodeURIComponent(s.name)}">在浙数据</a>
+              ${s.official ? `<a class="btn" href="${escHtml(s.official)}" target="_blank" rel="noopener noreferrer">学校官网</a>` : ''}
+              ${s.admissions ? `<a class="btn btn-secondary" href="${escHtml(s.admissions)}" target="_blank" rel="noopener noreferrer">本科招生</a>` : ''}
             </div>
           </div>
         `).join('');
@@ -91,23 +99,29 @@
 
       function applyFilters() {
         const q = (document.getElementById('linkSearch').value || '').trim().toLowerCase();
-        const list = q ? allLinks.filter(s => s.name.toLowerCase().includes(q)) : allLinks;
+        const tier = (document.getElementById('linkTierFilter').value || '').trim();
+        let list = allLinks;
+        if (q) list = list.filter(s => s.name.toLowerCase().includes(q));
+        if (tier) list = list.filter(s => s.tier === tier);
         renderSchoolLinks(list);
       }
 
       function resetLinkFilter() {
         document.getElementById('linkSearch').value = '';
+        document.getElementById('linkTierFilter').value = '';
         applyFilters();
       }
 
       document.getElementById('linkSearch').addEventListener('keydown', e => {
         if (e.key === 'Enter') applyFilters();
       });
+      document.getElementById('linkTierFilter').addEventListener('change', applyFilters);
 
-      fetch('data/nav-985.json')
+      fetch('data/nav-211.json')
         .then(r => r.json())
         .then(data => {
           allLinks = data.schools || [];
+          // only keep schools with tier info or elite tiers for link display
           renderSchoolLinks(allLinks);
         })
         .catch(() => {
